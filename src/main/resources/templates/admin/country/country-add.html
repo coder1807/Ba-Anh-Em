@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5">
+    <!-- BREADCRUMB -->
+    <!-- Header Start -->
+    <div class="container-fluid bg-breadcrumb">
+        <div class="container text-center py-5" style="max-width: 900px;">
+            <h3 class=" display-3 mb-4 fw-bolder">
+                Trang danh mục
+            </h3>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="/home/index">Trang chủ </a></li>
+                <li class="breadcrumb-item active">Thêm quốc gia</li>
+            </ol>
+        </div>
+    </div>
+    <!-- Header End -->
+    <!-- /BREADCRUMB -->
+    <!--    <h1 class="mb-4">Form Category</h1>-->
+    <form th:action="@{/admin/countries/add}" th:object="${country}" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="name" class="form-label">Quốc gia:</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Nation Name"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+        <button type="submit" class="custom-button">Xác nhận</button>
+    </form>
+</section>
+</body>
+</html>

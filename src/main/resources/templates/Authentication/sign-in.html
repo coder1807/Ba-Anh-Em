@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+
+    <!-- FontAwesome 6.2.0 CSS -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+            integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet"  th:fragment="link-css" th:href="@{assets/css/bootstrap.min.css}"/>
+    <link rel="stylesheet"  th:fragment="link-css" th:href="@{assets/css/all.min.css}"/>
+    <link rel="stylesheet"  th:fragment="link-css" th:href="@{assets/css/animate.css}"/>
+    <link rel="stylesheet"  th:fragment="link-css" th:href="@{assets/css/flaticon.css}"/>
+    <link rel="stylesheet"  th:fragment="link-css" th:href="@{assets/css/magnific-popup.css}"/>
+    <link rel="stylesheet"  th:fragment="link-css" th:href="@{assets/css/odometer.css}"/>
+    <link rel="stylesheet"  th:fragment="link-css" th:href="@{assets/css/owl.carousel.min.css}"/>
+    <link rel="stylesheet"  th:fragment="link-css" th:href="@{assets/css/owl.theme.default.min.css}"/>
+    <link rel="stylesheet"  th:fragment="link-css" th:href="@{assets/css/nice-select.css}"/>
+    <link rel="stylesheet"  th:fragment="link-css" th:href="@{assets/css/main.css}"/>
+
+    <link
+            rel="shortcut icon"
+            href="assets/img/favicon.png"
+            type="image/x-icon"
+    />
+
+    <title>Ba Anh Em- Online Ticket Booking Website</title>
+</head>
+
+<body>
+<!-- ==========Preloader========== -->
+<div class="preloader">
+    <div class="preloader-inner">
+        <div class="preloader-icon">
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<!-- ==========Preloader========== -->
+
+<!-- ==========Sign-In-Section========== -->
+<section class="account-section bg_img" data-background="/assets/img/account/account-bg.jpg">
+    <div class="container">
+        <div class="padding-top padding-bottom">
+            <div class="account-area">
+                <div class="section-header-3">
+                    <span class="cate">XIN CHÀO</span>
+                    <h2 class="title">chào mừng trở lại</h2>
+                </div>
+
+                <form class="account-form" th:action="@{/login}" method="post">
+
+                    <div th:if="${param.error}" class="alert alert-danger">
+                        Tên tài khoản hoặc mật khẩu sai
+                    </div>
+
+                    <div th:if="${param.logout}" class="alert alert-success">
+                        Bạn đã đăng xuất thành công.
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Tên tài khoản<span>*</span></label>
+                        <input
+                                type="text"
+                                placeholder="Enter Your UserName"
+                                id="username"
+                                name="username"
+                                required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Mật khẩu<span>*</span></label  >
+                        <input
+                                type="password"
+                                placeholder="password"
+                                id="password"
+                                name="password"
+                                required
+                        />
+                    </div>
+
+                    <div class="form-group checkgroup">
+                        <input
+                                type="checkbox"
+                                id="bal2"
+                                required
+                                checked
+                        />
+                        <label for="bal2">Nhớ mật khẩu</label>
+                        <a href="#0" class="forget-pass">Quên mật khẩu</a>
+                    </div>
+
+                    <div class="form-group text-center">
+                        <input type="submit" value="log in"/>
+                    </div>
+                </form>
+                <a href="/oauth2/authorization/google"
+                   class="btn btn-outline-danger btn-floating m-1" role="button">
+                    Login with Google
+                </a>
+                <div class="option">
+                    Bạn đã có tài khoản?
+                    <a href="sign-up.html" th:href="${'/register'}">Đăng ký</a>
+                </div>
+                <div class="or"><span>Or</span></div>
+                <ul class="social-icons">
+                    <li>
+                        <a href="#0">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#0" class="active">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#0">
+                            <i class="fab fa-google"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ==========Sign-In-Section========== -->
+
+<script th:src="@{/assets/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/assets/js/modernizr-3.6.0.min.js}"></script>
+<script th:src="@{/assets/js/plugins.js}"></script>
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/heandline.js}"></script>
+<script th:src="@{/assets/js/isotope.pkgd.min.js}"></script>
+<script th:src="@{/assets/js/magnific-popup.min.js}"></script>
+<script th:src="@{/assets/js/owl.carousel.min.js}"></script>
+<script th:src="@{/assets/js/wow.min.js}"></script>
+<script th:src="@{/assets/js/countdown.min.js}"></script>
+<script th:src="@{/assets/js/odometer.min.js}"></script>
+<script th:src="@{/assets/js/viewport.jquery.js}"></script>
+<script th:src="@{/assets/js/nice-select.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+</body>
+</html>

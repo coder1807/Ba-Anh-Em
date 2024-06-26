@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security5"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!-- FontAwesome 6.2.0 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/all.min.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/animate.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/flaticon.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/magnific-popup.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/odometer.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/owl.carousel.min.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/owl.theme.default.min.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/nice-select.css}" />
+    <link
+      rel="stylesheet"
+      th:fragment="link-css"
+      th:href="@{/assets/css/jquery.animatedheadline.css}"
+    />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/main.css}" />
+
+    <link
+      rel="shortcut icon"
+      th:src="@{/assets/img/favicon.png}"
+      type="image/x-icon"
+    />
+<!--    th:replace="~{::title}"-->
+    <title >Ba Anh Em - Online Ticket Booking Website</title>
+
+    <style>
+      .btn__logout {
+        background-image: -webkit-linear-gradient(
+          169deg,
+          #5560ff 17%,
+          #aa52a1 63%,
+          #ff4343 100%
+        );
+        padding: 10px 49px;
+        font-weight: 600;
+        border-radius: 25px;
+        display: inline-block;
+        transition: all 0.3s ease;
+      }
+
+      .btn__logout:hover {
+        box-shadow: 0px 10px 15px 0px rgba(59, 55, 188, 0.5);
+      }
+
+      .btn__logout:focus,
+      .btn__logout:active {
+        border: none;
+        outline: none;
+      }
+    </style>
+  </head>
+
+  <body>
+  <header class="header-section">
+    <div class="container">
+      <div class="header-wrapper">
+        <div class="logo">
+          <a th:href="@{/}">
+            <img th:src="@{/assets/img/logo/logo.png}" alt="logo" />
+          </a>
+        </div>
+        <ul class="menu">
+          <li>
+            <a href="/" class="active">Trang chủ</a>
+            <!-- <ul class="submenu">
+                      <li>
+                          <a th:src="#0" class="active">Home One</a>
+                      </li>
+                      <li>
+                          <a th:src="index-2.html">Home Two</a>
+                      </li>
+                  </ul> -->
+          </li>
+          <li class="menu-item-has-children">
+            <a href="#0">Phim</a>
+            <ul class="submenu">
+              <li>
+                <a href="/films">Tất cả phim</a>
+              </li>
+              <!-- <li>
+                          <a th:src="movie-list.html">Movie List</a>
+                      </li> -->
+              <li>
+                <a href="movie-details.html">Chi tiết phim</a>
+              </li>
+              <!-- <li>
+                          <a th:src="movie-details-2.html"
+                              >Movie Details 2</a
+                          >
+                      </li> -->
+              <li>
+                <a href="movie-ticket-plan.html">Suất chiếu</a>
+              </li>
+              <li>
+                <a href="movie-seat-plan.html">Chọn ghế</a>
+              </li>
+              <li>
+                <a href="movie-checkout.html">Thanh toán</a>
+              </li>
+              <li>
+                <a href="popcorn.html">Bắp và Nước</a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="menu-item-has-children">
+            <a href="#0">Trang</a>
+            <ul class="submenu">
+              <li>
+                <a href="/about.html">về Chúng tôi</a>
+              </li>
+              <li>
+                <a href="/apps-download.html">Apps Download</a>
+              </li>
+              <li>
+                <a href="/sign-in.html">Sign In</a>
+              </li>
+              <li>
+                <a href="/sign-up.html">Sign Up</a>
+              </li>
+              <li>
+                <a href="/404.html">404</a>
+              </li>
+            </ul>
+          </li>
+          <li class="menu-item-has-children">
+            <a href="#">bài viết</a>
+            <ul class="submenu">
+              <li>
+                <a href="/blog.html">tất cả bài viết</a>
+              </li>
+              <li>
+                <a href="/blog-details.html">Chi tiết 1 bài viết</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a thref="contact.html">liên hệ</a>
+          </li>
+
+          <li class="header-button pr-0" sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post">
+              <button class="btn__logout" type="submit">Đăng xuất</button>
+            </form>
+          </li>
+
+          <li class="header-button pr-0" sec:authorize="!isAuthenticated()">
+            <form th:action="@{/logout}" method="post">
+              <a thref="sign-up.html" th:href="@{/login}">Đăng nhập</a>
+            </form>
+          </li>
+        </ul>
+        <div class="header-bar d-lg-none">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </header>
+<main>
+  <section layout:fragment="content"></section>
+</main>
+  <!-- ==========Newslater-Section========== -->
+  <footer class="footer-section">
+    <div class="newslater-section padding-bottom">
+      <div class="container">
+        <div
+                class="newslater-container bg_img"
+                data-background="/assets/img/newslater/newslater-bg01.jpg"
+        >
+          <div class="newslater-wrapper">
+            <h5 class="cate">subscribe to Ba Anh Em</h5>
+            <h3 class="title">to get exclusive benifits</h3>
+            <form class="newslater-form">
+              <input
+                      type="text"
+                      placeholder="Your Email Address"
+              />
+              <button type="submit">Đăng kí</button>
+            </form>
+            <p>
+              Chúng tôi rất tôn trọng quyền riêng tư của bạn,
+              chúng tôi sẽ không bao giờ chia sẻ thông tin của bạn
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="footer-top">
+        <div class="logo">
+          <a href="index-1.html">
+            <img
+                    src="/assets/img/footer/footer-logo.png"
+                    alt="footer"
+            />
+          </a>
+        </div>
+        <ul class="social-icons">
+          <li>
+            <a href="#0">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#0" class="active">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#0">
+              <i class="fab fa-pinterest-p"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#0">
+              <i class="fab fa-google"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#0">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-area">
+          <div class="left">
+            <p>
+              Copyright © 2024.All Rights Reserved By
+              <a href="#0">Ba Anh Em </a>
+            </p>
+          </div>
+          <ul class="links">
+            <li>
+              <a href="#0">Về chúng tôi </a>
+            </li>
+            <li>
+              <a href="#0">Terms Of Use</a>
+            </li>
+            <li>
+              <a href="#0">Chính sách quyền riêng tư</a>
+            </li>
+            <li>
+              <a href="#0">FAQ</a>
+            </li>
+            <li>
+              <a href="#0">Phản hồi</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+    <script th:src="@{/assets/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/assets/js/modernizr-3.6.0.min.js}"></script>
+    <script th:src="@{/assets/js/plugins.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/js/heandline.js}"></script>
+    <script th:src="@{/assets/js/isotope.pkgd.min.js}"></script>
+    <script th:src="@{/assets/js/magnific-popup.min.js}"></script>
+    <script th:src="@{/assets/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/assets/js/wow.min.js}"></script>
+    <script th:src="@{/assets/js/countdown.min.js}"></script>
+    <script th:src="@{/assets/js/odometer.min.js}"></script>
+    <script th:src="@{/assets/js/viewport.jquery.js}"></script>
+    <script th:src="@{/assets/js/nice-select.js}"></script>
+    <script th:src="@{/assets/js/main.js}"></script>
+  </body>
+</html>

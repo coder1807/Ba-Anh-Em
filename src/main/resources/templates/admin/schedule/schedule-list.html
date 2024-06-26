@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title} ?: 'Lịch Chiếu'">Title</title>
+</head>
+<body>
+<section layout:fragment="content" class="mt-5">
+    <!-- BREADCRUMB -->
+    <!-- Header Start -->
+    <div class="container-fluid bg-breadcrumb">
+        <div class="container text-center py-5" style="max-width: 900px;">
+            <h3 class="display-3 mb-4 fw-bolder">
+                Lịch chiếu
+            </h3>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                <li class="breadcrumb-item active">Lịch chiếu</li>
+            </ol>
+        </div>
+    </div>
+    <!-- Header End -->
+    <!-- /BREADCRUMB -->
+    <div class="container-fluid">
+        <div>
+            <a th:href="@{/admin/schedules/add}" class="btn btn-primary mb-3">Thêm lịch chiếu</a>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead class="table-primary">
+            <tr>
+                <th>ID</th>
+                <th>ID PHIM</th>
+                <th>Phim</th>
+                <th>Phòng</th>
+                <th>Rạp</th>
+                <th>Địa điểm</th>
+                <th>Suất chiếu</th>
+                <th>Bản đồ</th>
+                <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${schedules}">
+                <td class="text-white" th:text="${item.id}"></td>
+                <td class="text-white" th:text="${item.film.id}"></td>
+                <td class="text-white" th:text="${item.film.name}"></td>
+                <td class="text-white" th:text="${item.room.name}"></td>
+                <td class="text-white" th:text="${item.room.cinema.name}"></td>
+                <td class="text-white" th:text="${item.room.cinema.address}"></td>
+<!--                <td class="text-white" th:text="${item.startTime}"></td>-->
+                <td class="text-white" th:text="${#dates.format(item.startTime, 'HH:mm')}"></td>
+                <td class="text-white" th:text="${item.room.cinema.map}"></td>
+                <td>
+                    <a th:href="@{/admin/schedules/edit/{id}(id=${item.id})}" class="btn btn-success btn-sm">Sửa</a>
+                    <a th:href="@{/admin/schedules/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

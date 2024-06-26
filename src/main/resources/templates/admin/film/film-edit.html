@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+>
+<head>
+    <title>Sửa Phim</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5">
+    <!-- BREADCRUMB -->
+    <!-- Header Start -->
+    <div class="container-fluid bg-breadcrumb">
+        <div class="container text-center py-5" style="max-width: 900px;">
+            <h3 class="display-3 mb-4 fw-bolder">
+                Sửa danh mục
+            </h3>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="#">Trang chủ >></a></li>
+                <li class="breadcrumb-item active ">Sửa danh mục </li>
+            </ol>
+        </div>
+    </div>
+    <!-- Header End -->
+    <!-- /BREADCRUMB -->
+    <!--    <h1 class="mb-4">Update Category</h1>-->
+    <h1>Sửa Phim</h1>
+
+        <form th:action="@{/admin/films/edit/{id}(id=${film.id})}" th:object="${film}" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="name" class="form-label">Tên Phim:</label>
+                <input type="text" th:field="*{name}" class="form-control" id="name" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Tên phim là bắt buộc.</div>
+            </div>
+            <div class="mb-3">
+                <label for="trailer" class="form-label">Trailer:</label>
+                <input type="text" th:field="*{trailer}" class="form-control" id="trailer">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Mô Tả:</label>
+                <textarea th:field="*{description}" class="form-control" id="description"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="poster" class="form-label">Poster:</label>
+                <input type="file" class="form-control" id="poster" name="poster">
+                <img th:src="@{${film.poster}}" alt="Current Poster" style="max-height: 200px;">
+            </div>
+            <div class="mb-3">
+                <label for="director" class="form-label">Đạo Diễn:</label>
+                <input type="text" th:field="*{director}" class="form-control" id="director">
+            </div>
+            <div class="mb-3">
+                <label for="actor" class="form-label">Diễn Viên:</label>
+                <input type="text" th:field="*{actor}" class="form-control" id="actor">
+            </div>
+            <div class="mb-3">
+                <label for="openingday" class="form-label">Ngày Khởi Chiếu:</label>
+                <input type="datetime-local" th:field="*{openingday}" class="form-control" id="openingday" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('openingday')}" th:errors="*{openingday}">Ngày khởi chiếu là bắt buộc.</div>
+            </div>
+            <div class="mb-3">
+                <label for="subtitle" class="form-label">Phụ Đề:</label>
+                <input type="text" th:field="*{subtitle}" class="form-control" id="subtitle">
+            </div>
+
+            <div class="mb-3">
+                <label for="duration" class="form-label">Thời Lượng (phút):</label>
+                <input type="number" th:field="*{duration}" class="form-control" id="duration" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}">Thời lượng là bắt buộc.</div>
+            </div>
+            <div class="mb-3">
+                <label for="quanlity" class="form-label">Chất lượng:</label>
+                <input type="text" th:field="*{quanlity}" class="form-control" id="quanlity">
+            </div>
+            <div class="mb-3">
+                <label for="limit_age" class="form-label">Giới Hạn Tuổi:</label>
+                <input type="text" th:field="*{limit_age}" class="form-control" id="limit_age">
+            </div>
+            <div class="mb-3">
+                <label for="country" class="form-label">Quốc Gia:</label>
+                <select th:field="*{country}" class="form-select" id="country">
+                    <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}" th:selected="${country.id} == ${film.country.id}">Chọn quốc gia</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">Thể Loại:</label>
+                <select th:field="*{category}" class="form-select" id="category">
+                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${category.id} == ${film.category.id}">Chọn thể loại</option>
+                </select>
+            </div>
+            <button type="submit" class="custom-button">Cập Nhật</button>
+            <a th:href="@{/admin/films}" class="btn btn-danger">Hủy</a>
+        </form>
+
+</section>
+
+</body>
+</html>

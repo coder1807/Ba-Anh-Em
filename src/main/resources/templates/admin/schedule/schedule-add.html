@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm lịch chiếu</title>
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5">
+    <div class="container-fluid bg-breadcrumb">
+        <div class="container text-center py-5" style="max-width: 900px;">
+            <h3 class="display-3 mb-4 fw-bolder">Thêm lịch chiếu</h3>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                <li class="breadcrumb-item active">Thêm lịch chiếu</li>
+            </ol>
+        </div>
+    </div>
+    <form th:action="@{/admin/schedules/add}" th:object="${schedule}" method="post">
+        <div class="mb-3">
+            <label for="film" class="form-label">Phim:</label>
+            <select id="film" th:field="*{film}" class="form-control">
+                <option value="">Chọn phim</option>
+                <option th:each="item : ${films}" th:value="${item.id}" th:text="${item.name}"></option>
+            </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('film')}" th:errors="*{film}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="room" class="form-label">Phòng:</label>
+            <select id="room" th:field="*{room}" class="form-control">
+                <option value="">Chọn phòng</option>
+                <option th:each="item : ${rooms}" th:value="${item.id}" th:text="${item.name}"></option>
+            </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('room')}" th:errors="*{room}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="startTime" class="form-label">Chọn suất:</label>
+            <input type="datetime-local" id="startTime" th:field="*{startTime}" class="form-control"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Xác nhận</button>
+        <a th:href="@{/admin/schedules}" class="btn btn-outline-danger">Hủy</a>
+    </form>
+</section>
+</body>
+</html>

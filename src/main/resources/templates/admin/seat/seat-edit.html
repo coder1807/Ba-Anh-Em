@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Edit Seat</title>
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5">
+    <!-- BREADCRUMB -->
+    <div class="container-fluid bg-breadcrumb">
+        <div class="container text-center py-5" style="max-width: 900px;">
+            <h3 class="display-3 mb-4 fw-bolder">Trang sửa ghế </h3>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="/home/index">Trang chủ</a></li>
+                <li class="breadcrumb-item active">Sửa ghế</li>
+            </ol>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+    <div class="container">
+        <form th:action="@{/admin/seats/edit/{id}(id=${seat.id})}" th:object="${seat}" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="symbol" class="form-label">Seat Number:</label>
+                <input type="text" id="symbol" th:field="*{symbol}" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Image:</label>
+                <input type="file" id="image" name="image" th:field="*{image}" class="form-control" />
+                <img th:src="@{${seat.image}}" alt="" style="max-width:100px">
+            </div>
+            <div class="mb-3">
+                <label for="status">Status:</label>
+                <input type="text" id="status" th:field="*{status}" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="room">Room:</label>
+                <select class="form-control" id="room" th:field="*{room.id}">
+                    <option value="">Chọn phòng</option>
+                    <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.name}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="seattype">Seat Type:</label>
+                <select class="form-control" id="seattype" th:field="*{seattype.id}">
+                    <option value="">Chọn loại ghế</option>
+                    <option th:each="seattype : ${seattypes}" th:value="${seattype.id}" th:text="${seattype.type}"></option>
+                </select>
+            </div>
+
+            <div>
+                <button class="btn btn-warning w-100 mb-3" type="submit">Update</button>
+                <a th:href="@{/admin/seats}" class="btn btn-danger w-100">Hủy</a>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

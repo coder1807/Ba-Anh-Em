@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title  th:text="${title} ?: 'Kết Quả'">Title</title>
+</head>
+<body>
+<section layout:fragment="content" class="mt-5">
+    <!-- BREADCRUMB -->
+    <!-- Header Start -->
+    <div class="container-fluid bg-breadcrumb">
+        <div class="container text-center py-5" style="max-width: 900px;">
+            <h3 class="display-3 mb-4 fw-bolder">
+                Danh sách quốc gia
+            </h3>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="/home/index">Trang chủ</a></li>
+                <li class="breadcrumb-item active ">Quốc gia</li>
+            </ol>
+        </div>
+    </div>
+    <!-- Header End -->
+    <!-- /BREADCRUMB -->
+    <!--    <h1>Categories List</h1>-->
+    <div class="container">
+    <div>
+        <a th:href="@{/admin/countries/add}" class="btn btn-primary mb-3">Thêm quốc gia mới</a>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-primary">
+        <tr>
+            <th>ID</th>
+            <th>Tên QG</th>
+            <th>Options</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${countries}">
+            <td class="text-white" th:text="${item.id}"></td>
+            <td class="text-white" th:text="${item.name}"></td>
+            <td>
+                <a th:href="@{/admin/countries/edit/{id}(id=${item.id})}" class="btn btn-success btn-sm">Sửa</a>
+                <a th:href="@{/admin/countries/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>
+            </td>
+        </tr>
+        </tbody>
+    </table></div>
+</section>
+</body>
+</html>

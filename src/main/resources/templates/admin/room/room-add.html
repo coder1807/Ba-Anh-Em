@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm phòng chiếu</title>
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5">
+    <!-- BREADCRUMB -->
+    <div class="container-fluid bg-breadcrumb">
+        <div class="container text-center py-5" style="max-width: 900px;">
+            <h3 class="display-3 mb-4 fw-bolder">Trang thêm phòng chiếu</h3>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="/home/index">Trang chủ</a></li>
+                <li class="breadcrumb-item active">Thêm phòng</li>
+            </ol>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+    <form th:action="@{/admin/rooms/add}" th:object="${room}" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="name" class="form-label">Tên phòng:</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Room Name"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="cinema" class="form-label">Rạp:</label>
+            <select id="cinema" th:field="*{cinema}" class="form-control">
+                <option value="">Chọn rạp</option>
+                <option th:each="item : ${cinemas}" th:value="${item.id}" th:text="${item.name}"></option>
+            </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('cinema')}" th:errors="*{cinema}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Mô tả:</label>
+            <textarea id="description" th:field="*{description}" class="form-control" placeholder="Mô tả"></textarea>
+            <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+        </div>
+        <button type="submit" class="custom-button">Xác nhận</button>
+       <div class="w-100">
+           <a th:href="@{/admin/rooms}" class="btn btn-outline-danger">Cancel</a>
+       </div>
+    </form>
+</section>
+</body>
+</html>

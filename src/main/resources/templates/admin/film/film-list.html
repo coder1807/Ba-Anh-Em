@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title  th:text="${title} ?: 'Kết Quả'">Title</title>
+</head>
+<body>
+<section layout:fragment="content" class="mt-5">
+    <!-- BREADCRUMB -->
+    <!-- Header Start -->
+    <div class="container-fluid bg-breadcrumb">
+        <div class="container text-center py-5" style="max-width: 900px;">
+            <h3 class="display-3 mb-4 fw-bolder">
+                Danh sách phim
+            </h3>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="/home/index">Trang chủ</a></li>
+                <li class="breadcrumb-item active ">Phim</li>
+            </ol>
+        </div>
+    </div>
+    <!-- Header End -->
+    <!-- /BREADCRUMB -->
+    <!--    <h1>Categories List</h1>-->
+    <div class="container-fluid">
+        <div>
+            <a th:href="@{/admin/films/add}" class="btn btn-primary mb-3">Thêm phim mới</a>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead class="table-primary">
+            <tr>
+                <th>ID</th>
+                <th>Tên Phim</th>
+                <th>Trailer</th>
+                <th>Mô tả</th>
+                <th>Poster</th>
+                <th>Đạo diễn</th>
+                <th>Diễn viên</th>
+                <th>Ngày khởi chiếu</th>
+                <th>Phụ đề</th>
+                <th>Thời lượng</th>
+                <th>Chất lượng</th>
+                <th>Giới hạn độ tuổi</th>
+                <th>Quốc gia</th>
+                <th>Thể loại</th>
+                <th>Tùy chọn</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="film : ${films}">
+                <td class="text-white" th:text="${film.id}"></td>
+                <td  class="text-white" th:text="${film.name}"></td>
+                <td class="text-white" th:text="${film.trailer}"></td>
+                <td  class="text-white" th:text="${film.description}"></td>
+<!--                @{/assets/img/movie/poster/{poster}(poster=${film.poster})}-->
+                <td><img th:src="@{${film.poster}}" alt="Film Poster" style="max-width: 100px;"></td>
+                <td class="text-white" th:text="${film.director}"></td>
+                <td  class="text-white" th:text="${film.actor}"></td>
+<!--                <td class="text-white" th:text="${film.openingday}"></td>-->
+                <td class="text-white" th:text="@{${film.openingday != null ? #dates.format(film.openingday,'dd/MM/yyyy') : 'Chưa có ngày chiếu'}}"></td>
+<!--                <td class="text-white" th:text="${film.openingday != null ? #dates.format(film.openingday, 'yyyy-MM-dd') : 'Chưa có ngày chiếu'}"></td>-->
+<!--                <td class="text-white" th:text="${#dates.format(film.opneningday, 'dd/MM/yyyy HH:mm')}"></td>-->
+                <td class="text-white" th:text="${film.subtitle}"></td>
+                <td class="text-white" th:text="${film.duration + ' phút'}"></td>
+                <td class="text-white" th:text="${film.quanlity}"></td>
+                <td class="text-white" th:text="${film.limit_age}"></td>
+                <td class="text-white" th:text="${film.country.name}"></td>
+                <td class="text-white" th:text="${film.category.name}"></td>
+                <td>
+                    <a th:href="@{/admin/films/edit/{id}(id=${film.id})}" class="btn btn-warning btn-sm">Sửa</a>
+                    <a th:href="@{/admin/films/delete/{id}(id=${film.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>
