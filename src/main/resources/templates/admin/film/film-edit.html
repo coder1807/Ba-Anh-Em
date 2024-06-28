@@ -25,7 +25,6 @@
     <!-- /BREADCRUMB -->
     <!--    <h1 class="mb-4">Update Category</h1>-->
     <h1>Sửa Phim</h1>
-
         <form th:action="@{/admin/films/edit/{id}(id=${film.id})}" th:object="${film}" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="name" class="form-label">Tên Phim:</label>
@@ -78,19 +77,25 @@
                 <input type="text" th:field="*{limit_age}" class="form-control" id="limit_age">
             </div>
             <div class="mb-3">
-                <label for="country" class="form-label">Quốc Gia:</label>
-                <select th:field="*{country}" class="form-select" id="country">
-                    <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}" th:selected="${country.id} == ${film.country.id}">Chọn quốc gia</option>
+                <label for="country" class="form-label">Quốc gia:</label>
+                <select id="country" th:field="*{country}" class="form-control">
+                    <option value="">Chọn quốc gia</option>
+                    <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}"></option>
                 </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></div>
             </div>
+
             <div class="mb-3">
-                <label for="category" class="form-label">Thể Loại:</label>
-                <select th:field="*{category}" class="form-select" id="category">
-                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${category.id} == ${film.category.id}">Chọn thể loại</option>
+                <label for="category" class="form-label">Thể loại:</label>
+                <select th:field="*{category}" class="form-control" id="category" placeholder="Danh mục">
+                    <option value="">Chọn thể loại</option>
+                    <option th:each="category : ${categories}"
+                            th:value="${category.id}" th:text="${category.name}"></option>
                 </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
             </div>
             <button type="submit" class="custom-button">Cập Nhật</button>
-            <a th:href="@{/admin/films}" class="btn btn-danger">Hủy</a>
+            <a th:href="@{/admin/films}" class="btn btn-danger w-50">Hủy</a>
         </form>
 
 </section>

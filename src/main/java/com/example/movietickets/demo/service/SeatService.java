@@ -22,6 +22,12 @@ public class SeatService {
         return seatRepository.findByRoomId(roomId);
     }
 
+    // SeatService.java
+    public List<Seat> getSeatsByRoomIdDistinct(Long roomId) {
+        // Assuming your repository query or method fetches distinct seats based on roomId
+        return seatRepository.findDistinctSeatsByRoomId(roomId);
+    }
+
     public List<Seat> getAllSeats() {
         return seatRepository.findAll();
     }
@@ -33,6 +39,7 @@ public class SeatService {
     public void addSeat(Seat seat) {
         seatRepository.save(seat);
     }
+
     public Seat updateSeat(Seat seat){
         if (seat.getId() == null) {
             throw new IllegalArgumentException("Seat ID cannot be null for update");
@@ -49,5 +56,8 @@ public class SeatService {
         }
         seatRepository.deleteById(seatId);
     }
+
+
+
 }
 

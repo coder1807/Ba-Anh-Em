@@ -21,4 +21,6 @@ public class ComboFood {
 
     @Column(name = "DESCRIPTION")
     private String description;
+
+
 }

@@ -38,6 +38,7 @@
                 <th>Seat Image</th>
                 <th>Seat Price</th>
                 <th>Status</th>
+                <th>Phòng chiếu</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -51,7 +52,7 @@
                 </td>
                 <td class="text-white" th:text="${seat.seattype.price}"></td>
                 <td  class="text-white" th:text="${seat.status}"></td>
-                <td th:text="${seat.room.name}"></td>
+                <td  class="text-white" th:text="${seat.room.name}"></td>
                 <td>
                     <a th:href="@{/admin/seats/edit/{id}(id=${seat.id})}" class="btn btn-warning">Edit</a>
                     <a th:href="@{/admin/seats/delete/{id}(id=${seat.id})}" onclick="return confirm('Bạn có chắc không ?')" class="btn btn-danger">Delete</a>

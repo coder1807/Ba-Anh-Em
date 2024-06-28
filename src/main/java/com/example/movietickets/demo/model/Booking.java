@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -14,34 +16,40 @@ public class Booking {
     @Column(name = "BOOKING_ID")
     private Long  id;
 
-    @Column(name = "FULL_NAME", nullable = false)
-    private String fullname;
-
     @Column(name = "FILM_NAME")
     private String filmName;
 
-    @Column(name = "FILM_POSTER")
-    private String filmPoster;
+    @Column(name = "POSTER")
+    private String poster;
+
+    @Column(name = "CINEMA_NAME")
+    private String cinemaName;
+
+    @Column(name = "CINEMA_ADDRESS")
+    private String cinemaAddress;
 
     @Column(name = "LICH_CHIEU")
-    private LocalDateTime startTime;
+    private Date startTime;
 
     @Column(name = "CREAT_AT")
-   private LocalDateTime createAt;
-
-    @Column(name = "UPDATE_AT")
-    private LocalDateTime updateAT;
+   private Date createAt;
 
     @Column(name = "PRICE")
     private Long price;
 
-    @Column(name = "SOLUONG")
-    private int soLuong;
+    @Column(name = "SEAT_NAME")
+    private String  seatName;
 
-    @Column(name = "SEAT_TYPE")
-    private String seatType;
+    @Column(name = "PAYMENT")
+    private String payment;
+
+    @Column(name = "STATUS")
+    private boolean status;
 
     @ManyToOne
-    @JoinColumn(name = "COMBO_ID")
-    private ComboFood comboFood;
+    @JoinColumn(name = "USER_ID")
+    private User user;
+
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BookingDetail> bookingDetails;
 }

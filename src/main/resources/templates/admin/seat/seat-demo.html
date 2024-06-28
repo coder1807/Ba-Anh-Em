@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title  th:text="${title} ?: 'Kết Quả'">Title</title>
+</head>
+<body>
+<section layout:fragment="content" class="mt-5">
+    <!-- BREADCRUMB -->
+    <!-- Header Start -->
+    <div class="container-fluid bg-breadcrumb">
+        <div class="container text-center py-5" style="max-width: 900px;">
+            <h3 class="display-3 mb-4 fw-bolder">
+                Danh sách ghế
+            </h3>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="/home/index">Trang chủ</a></li>
+                <li class="breadcrumb-item active ">Chi tiet phong</li>
+            </ol>
+        </div>
+    </div>
+    <!-- BREADCRUMB -->
+
+
+    <div class="container">
+        <div class="mb-5">
+            <form method="get" action="/admin/seats">
+                <label for="roomId">Select Room:</label>
+                <select class="form-control" id="roomId" name="roomId" onchange="this.form.submit()">
+                    <option value="">All Rooms</option>
+                    <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.name}" th:selected="${room.id == selectedRoomId}"></option>
+                </select>
+            </form>
+        </div>
+        <a th:href="@{/admin/seats/add}" class="btn btn-warning my-3">Add New Seat</a>
+        <table th:object="${seat}" class="table table-bordered table-hover">
+            <thead>
+            <tr class="text-white">
+                <th>ID</th>
+                <th>Seat Number</th>
+                <th>Seat Type</th>
+                <th>Seat Price</th>
+                <th>Seat Image</th>
+                <th>Status</th>
+                <th>Room</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="seat : ${seats}" class="text-white">
+                <td th:text="${seat.id}"></td>
+                <td th:text="${seat.symbol}"></td>
+                <td th:text="${seat.seattype.type}"></td>
+                <td th:text="${seat.seattype.price}"></td>
+                <td>
+                    <img th:src="${seat.image}" alt="" style="max-width:100px">
+                </td>
+                <td th:text="${seat.status}"></td>
+                <td th:text="${seat.room.name}"></td>
+                <td>
+                    <a th:href="@{/admin/seats/edit/{id}(id=${seat.id})}" class="btn btn-warning">Edit</a>
+                    <a th:href="@{/admin/seats/delete/{id}(id=${seat.id})}" onclick="return confirm('Bạn có chắc không ?')" class="btn btn-danger">Delete</a>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</section>
+</body>
+</html>

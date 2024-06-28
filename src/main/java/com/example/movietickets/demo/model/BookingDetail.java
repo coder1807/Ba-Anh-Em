@@ -7,6 +7,7 @@ import lombok.Data;
 @Entity
 @Table(name = "Booking_Detail")
 public class BookingDetail {
+    @Column(name = "BOOKING_DETAIL_ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,8 +17,8 @@ public class BookingDetail {
     private Booking booking;
 
     @ManyToOne
-    @JoinColumn(name = "SCHEDULE_ID")
-    private Schedule schedule;
+    @JoinColumn(name = "SEAT_ID")
+    private Seat seat;
 
     @Column(name = "TOTAL_PRICE")
     private Long price;
@@ -25,5 +26,7 @@ public class BookingDetail {
     @Column(name = "SOLUONGVE")
     private int soLuong;
 
-
+    @ManyToOne
+    @JoinColumn(name = "COMBO_ID")
+    private ComboFood comboFood;
 }

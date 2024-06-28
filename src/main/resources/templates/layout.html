@@ -25,6 +25,7 @@
     <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/magnific-popup.css}" />
     <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/odometer.css}" />
     <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/owl.carousel.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css}" />
     <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/owl.theme.default.min.css}" />
     <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/nice-select.css}" />
     <link
@@ -90,37 +91,34 @@
                       </li>
                   </ul> -->
           </li>
-          <li class="menu-item-has-children">
-            <a href="#0">Phim</a>
-            <ul class="submenu">
-              <li>
-                <a href="/films">Tất cả phim</a>
-              </li>
-              <!-- <li>
-                          <a th:src="movie-list.html">Movie List</a>
-                      </li> -->
-              <li>
-                <a href="movie-details.html">Chi tiết phim</a>
-              </li>
-              <!-- <li>
-                          <a th:src="movie-details-2.html"
-                              >Movie Details 2</a
-                          >
-                      </li> -->
-              <li>
-                <a href="movie-ticket-plan.html">Suất chiếu</a>
-              </li>
-              <li>
-                <a href="movie-seat-plan.html">Chọn ghế</a>
-              </li>
-              <li>
-                <a href="movie-checkout.html">Thanh toán</a>
-              </li>
-              <li>
-                <a href="popcorn.html">Bắp và Nước</a>
-              </li>
-            </ul>
+          <li>
+            <a href="/films">Phim</a>
           </li>
+<!--            <ul class="submenu">-->
+<!--              <li>-->
+<!--                <a href="/films">Tất cả phim</a>-->
+<!--              </li>-->
+<!--              &lt;!&ndash; <li>-->
+<!--                          <a th:src="movie-list.html">Movie List</a>-->
+<!--                      </li> &ndash;&gt;-->
+<!--              <li>-->
+<!--                <a href="movie-details.html">Chi tiết phim</a>-->
+<!--              </li>-->
+<!--          -->
+<!--              <li>-->
+<!--                <a href="movie-ticket-plan.html">Suất chiếu</a>-->
+<!--              </li>-->
+<!--              <li>-->
+<!--                <a href="movie-seat-plan.html">Chọn ghế</a>-->
+<!--              </li>-->
+<!--              <li>-->
+<!--                <a href="movie-checkout.html">Thanh toán</a>-->
+<!--              </li>-->
+<!--              <li>-->
+<!--                <a href="popcorn.html">Bắp và Nước</a>-->
+<!--              </li>-->
+<!--            </ul>-->
+
 
           <li class="menu-item-has-children">
             <a href="#0">Trang</a>
@@ -189,12 +187,12 @@
                 data-background="/assets/img/newslater/newslater-bg01.jpg"
         >
           <div class="newslater-wrapper">
-            <h5 class="cate">subscribe to Ba Anh Em</h5>
-            <h3 class="title">to get exclusive benifits</h3>
+            <h5 class="cate">Đăng kí Ba Anh Em</h5>
+            <h3 class="title">Nhận ngay nhiều voucher hấp dẫn đừng bỏ lỡ!</h3>
             <form class="newslater-form">
               <input
                       type="text"
-                      placeholder="Your Email Address"
+                      placeholder="Địa chỉ email của bạn"
               />
               <button type="submit">Đăng kí</button>
             </form>
@@ -287,6 +285,8 @@
     <script th:src="@{/assets/js/odometer.min.js}"></script>
     <script th:src="@{/assets/js/viewport.jquery.js}"></script>
     <script th:src="@{/assets/js/nice-select.js}"></script>
+    <script th:src="@{/assets/js/seat.js}" ></script>
+    <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/toastify-js}"></script>
     <script th:src="@{/assets/js/main.js}"></script>
   </body>
 </html>

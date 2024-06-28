@@ -51,16 +51,29 @@ public class SeatController {
 
   //  private static final Logger logger = LoggerFactory.getLogger(SeatController.class);
 
-    @GetMapping
-    public String getAllSeats(
-            Model model) {
-       // List<Room> rooms = roomService.getAllRooms();
-        List<Seat> seats = seatService.getAllSeats();
-        model.addAttribute("seats", seats);
-        model.addAttribute("title", "Danh sách ghế");
-       // model.addAttribute("rooms", rooms); // load rooms
-        return "/admin/seat/seat-list";
-    }
+//    @GetMapping
+//    public String getAllSeats(
+//            Model model) {
+//       // List<Room> rooms = roomService.getAllRooms();
+//        List<Seat> seats = seatService.getAllSeats();
+//        model.addAttribute("seats", seats);
+//        model.addAttribute("title", "Danh sách ghế");
+//       // model.addAttribute("rooms", rooms); // load rooms
+//        return "/admin/seat/seat-list";
+//    }
+        @GetMapping
+        public String getAllSeats(@RequestParam(value = "roomId", required = false) Long roomId, Model model) {
+            List<Seat> seats;
+            if (roomId != null) {
+                seats = seatService.getSeatsByRoomId(roomId);
+            } else {
+                seats = seatService.getAllSeats();
+            }
+            model.addAttribute("seats", seats);
+            model.addAttribute("rooms", roomService.getAllRooms());
+            model.addAttribute("selectedRoomId", roomId);
+            return "/admin/seat/seat-list";
+        }
 
 
     // Create new seat form
@@ -75,7 +88,13 @@ public class SeatController {
 
     //gọi phương thức mapp tới form add
     @PostMapping("/add")
-    public String addSeat(@Valid @ModelAttribute Seat seat, BindingResult result,@RequestParam("image") MultipartFile image)throws IOException{
+    public String addSeat(@Valid @ModelAttribute Seat seat, BindingResult result,@RequestParam("image") MultipartFile image, Model model)throws IOException{
+
+//        if (result.hasErrors()) {
+//            model.addAttribute("rooms", roomService.getAllRooms());
+//            model.addAttribute("seattypes", seatTypeService.getAllSeatTypes());
+//            return "/admin/seat/seat-add";
+//        }
        if (!image.isEmpty()) {
             try {
                 String imageName = saveImageStatic(image);
