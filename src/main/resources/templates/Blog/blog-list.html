@@ -30,10 +30,10 @@
              style="background-image: url(&quot;/assets/img/banner/banner07.jpg&quot;);">
         <div class="container">
             <div class="speaker-banner-content">
-                <h2 class="title">blog</h2>
+                <h2 class="title">Bài viết</h2>
                 <ul class="breadcrumb">
                     <li>
-                        <a th:href="@{/}"> Home </a>
+                        <a th:href="@{/}"> Trang chủ </a>
                     </li>
                     <li>
                         <a th:href="@{/blog}"> Blog </a>
@@ -76,15 +76,20 @@
                         </div>
                     </article>
                     <div class="pagination-area text-center">
-                        <a href="#0"><i class="fas fa-angle-double-left"></i><span>Prev</span></a>
-                        <a href="#0">1</a>
-                        <a href="#0">2</a>
-                        <a href="#0" class="active">3</a>
-                        <a href="#0">4</a>
-                        <a href="#0">5</a>
-                        <a href="#0"><span>Next</span><i class="fas fa-angle-double-right"></i></a>
+                        <a th:href="@{/blog(pageNo=${currentPage - 1}, pageSize=${pageSize}, sortBy=${sortBy})}" th:if="${currentPage > 0}">
+                            <i class="fas fa-angle-double-left"></i><span>Prev</span>
+                        </a>
+                        <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                           th:href="@{/blog(pageNo=${i}, pageSize=${pageSize}, sortBy=${sortBy})}"
+                           th:text="${i + 1}"
+                           th:classappend="${currentPage == i} ? 'active'">
+                        </a>
+                        <a th:href="@{/blog(pageNo=${currentPage + 1}, pageSize=${pageSize}, sortBy=${sortBy})}" th:if="${currentPage < totalPages - 1}">
+                            <span>Next</span><i class="fas fa-angle-double-right"></i>
+                        </a>
                     </div>
                 </div>
+
                 <div class="col-lg-4 col-sm-10 col-md-8">
                     <aside>
                         <div class="widget widget-search">

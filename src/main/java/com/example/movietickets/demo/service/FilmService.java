@@ -7,6 +7,9 @@ import com.example.movietickets.demo.model.Rating;
 import com.example.movietickets.demo.repository.FilmRepository;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,10 +22,13 @@ import java.util.Optional;
 @Service
 public class FilmService {
     private  final FilmRepository filmRepository;
-
     // Retrieve all film from the database
-    public List<Film> getAllFilms() {
+    public List<Film> getAllFilms()
+    {
         return filmRepository.findAll();
+    }
+    public Page<Film> getAllFilmsForUser(Integer pageNo, Integer pageSize, String sortBy) {
+        return filmRepository.findAllFilmsForUser(pageNo, pageSize, sortBy);
     }
 
     // Lấy film theo id

@@ -3,6 +3,11 @@ package com.example.movietickets.demo.controller;
 import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.service.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,11 +35,19 @@ public class FilmController {
 
     // Hiển thị danh sách danh mục
     @GetMapping("/films")
-    public String listFilms(Model model) {
-        List<Film> films = filmService.getAllFilms();
+    public String listFilms(Model model,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "9") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy
+
+    ) {
+        Page<Film> page = filmService.getAllFilmsForUser(pageNo, pageSize, sortBy);
         List<Country> countries = countryService.getAllCountries();
+        List<Film> films = page.getContent();
         List<Category> categories = categoryService.getAllCategories();
 
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("categories", categories);
         model.addAttribute("films", films);
         model.addAttribute("countries", countries);

@@ -106,7 +106,8 @@ window.onload = function() {
             style: {
 //                background: "linear-gradient(to right, #00b09b, #0f0)",
 
-                width: 400,
+                width: 600,
+                height: 250,
             },
             //  onClick: function () {}, // Callback after click
             backgroundColor: "red",

@@ -32,6 +32,7 @@ public class PurchaseController {
             model.addAttribute("cinemaAddress", purchase.getCinemaAddress());
             model.addAttribute("startTime", purchase.getStartTime());
             model.addAttribute("roomName", purchase.getRoomName());
+            model.addAttribute("poster", purchase.getPoster());
             model.addAttribute("selectedSeats", purchase.getSeatSymbols());
             //format Currency VND
             NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));

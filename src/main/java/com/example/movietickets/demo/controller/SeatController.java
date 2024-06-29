@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +58,8 @@ public class SeatController {
     public String getSeatsBySchedule(@PathVariable Long scheduleId, Model model) {
         Optional<Schedule> optionalSchedule = scheduleService.getScheduleById(scheduleId);
         Film film = optionalSchedule.map(Schedule::getFilm).orElse(null);//map schedule de lay thong tin film
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String currentTime = LocalTime.now().format(formatter);
         //kiem tra biến optionalSchedul co chua value => get values
         if (optionalSchedule.isPresent()) {
             Schedule schedule = optionalSchedule.get();
@@ -68,6 +72,7 @@ public class SeatController {
             // Group seats theo type
             Map<String, List<Seat>> seatsByType = seats.stream().collect(Collectors.groupingBy(seat -> seat.getSeattype().getType()));
 
+            model.addAttribute("currentTime", currentTime);
             model.addAttribute("seats", seats);
             model.addAttribute("film", film);
             model.addAttribute("schedule", schedule);

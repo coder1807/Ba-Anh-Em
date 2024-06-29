@@ -8,6 +8,7 @@ import com.example.movietickets.demo.service.CountryService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -23,6 +24,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
 
 @Controller
 @AllArgsConstructor
@@ -48,11 +50,15 @@ public class BlogController {
 
     // blog for user
     @GetMapping("/blog")
-    public String listBlogUser(Model model) {
-        List<Blog> blog = blogService.getAllPosts();
-        List<Category> categories = categoryService.getAllCategories();
+    public String listBlogUser(Model model,
+                               @RequestParam(defaultValue = "0") Integer pageNo,
+                               @RequestParam(defaultValue = "3") Integer pageSize,
+                               @RequestParam(defaultValue = "id") String sortBy) {
+        Page<Blog> page = blogService.getAllPostsForUser(pageNo,pageSize, sortBy);
 
-        model.addAttribute("categories", categories);
+        List<Blog> blog = page.getContent();
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("blog", blog);
         return "/blog/blog-list";
     }

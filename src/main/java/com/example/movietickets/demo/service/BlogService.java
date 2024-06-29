@@ -4,6 +4,7 @@ import com.example.movietickets.demo.model.Blog;
 import com.example.movietickets.demo.repository.BlogRepository;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.FileSystemNotFoundException;
@@ -15,6 +16,10 @@ public class BlogService {
     @Autowired
     private BlogRepository blogRepository;
 
+    public Page<Blog> getAllPostsForUser(Integer pageNo, Integer pageSize, String sortBy ) {
+        return blogRepository.findAllBlogForUser(pageNo, pageSize, sortBy);
+    }
+
     public List<Blog> getAllPosts() {
         return blogRepository.findAll();
     }
@@ -22,7 +27,6 @@ public class BlogService {
     public Optional<Blog> getPostById(Long id) {
         return blogRepository.findById(id);
     }
-
 
     public Blog create(Blog post) {
         return blogRepository.save(post);

@@ -49,8 +49,9 @@ public class SecurityConfig {
             throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/assets/**","/css/**", "/js/**", "/", "/oauth/**","/films","/films/details",
-                                "/register", "/error", "/films", "/cart", "/cart/**", "/blog", "/blog/blog-details", "/popcorn","/movie/details", "/movie/seat-plan" ,"/feedback", "/about", "blog//blog-details/{id}/comment")
+                        .requestMatchers("/assets/**","/css/**", "/js/**", "/", "/oauth/**",
+                                "/register", "/error", "/purchase","/films","/films/film-details/**" , "/schedules/**",
+                               "/cart", "/cart/**", "/blog", "blog/details", "/popcorn","/movie/details", "/movie/seat-plan","/feedback","/blog","/blog/blog-details", "/about", "blog//blog-details/{id}/comment")
                         .permitAll() // Cho phép truy cập không cần xác thực.
                         .requestMatchers("admin/movie/edit/**", "/admin/movie/add", "/admin/films","/admin/films/edit", "/admin/films/add",
                                 "/admin/countries", "/admin/countries/add","/admin/countries/edit",
