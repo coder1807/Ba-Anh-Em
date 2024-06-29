@@ -50,6 +50,9 @@ public class BlogController {
     @GetMapping("/blog")
     public String listBlogUser(Model model) {
         List<Blog> blog = blogService.getAllPosts();
+        List<Category> categories = categoryService.getAllCategories();
+
+        model.addAttribute("categories", categories);
         model.addAttribute("blog", blog);
         return "/blog/blog-list";
     }

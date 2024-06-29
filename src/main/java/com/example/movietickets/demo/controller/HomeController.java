@@ -26,8 +26,8 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
 
-        List<Category> categories = categoryService.getAllCategories();
         List<Country> countries = countryService.getAllCountries();
+        List<Category> categories = categoryService.getAllCategories();
 
         model.addAttribute("categories", categories);
         model.addAttribute("countries", countries);

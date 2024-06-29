@@ -2,6 +2,7 @@ package com.example.movietickets.demo.controller;
 
 import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.service.BlogService;
+import com.example.movietickets.demo.service.CategoryService;
 import com.example.movietickets.demo.service.CommentService;
 import com.example.movietickets.demo.service.UserService;
 import jakarta.validation.Valid;
@@ -36,6 +37,9 @@ public class CommentController {
     @Autowired
     private final UserService userService;
 
+    @Autowired
+    private  final CategoryService categoryService;
+
     @PostMapping("/blog-details/{id}/comment")
     public String addComment(@PathVariable Long id, @Valid @ModelAttribute Comment comment,
                              BindingResult result, Model model, RedirectAttributes redirectAttributes) {
@@ -53,6 +57,10 @@ public class CommentController {
 
         // Kiểm tra và lấy thông tin người dùng đăng nhập hiện tại
         User user = userService.getCurrentUser();
+
+        List<Category> categories = categoryService.getAllCategories();
+
+        model.addAttribute("categories", categories);
 
         // Thiết lập thông tin cho comment
         Comment newComment = new Comment();
