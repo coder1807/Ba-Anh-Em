@@ -36,6 +36,19 @@
       });
     });
   });
+$(document).ready(function () {
+      // Khi trang tải, đặt on-iem "active" dựa trên sessionStorage
+      var activeItem = sessionStorage.getItem('activeItem');
+      if (activeItem) {
+          $(".on_item").removeClass("active");
+          $(activeItem).addClass("active");
+      }
+
+      $(".on_item").on("click", function () {
+          // Khi một navitem được nhấp, lưu id của nó vào sessionStorage
+          sessionStorage.setItem('activeItem', '#' + this.id); //gán 1 id cho active-Item
+      });
+  });
   $(document).ready(function () {
     // Nice Select
     $(".select-bar").niceSelect();

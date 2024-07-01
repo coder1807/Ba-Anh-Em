@@ -31,7 +31,7 @@
             type="image/x-icon"
     />
 
-    <title>Ba Anh Em- Online Ticket Booking Website</title>
+    <title>Ba Anh Em- Đặt vé xem phim online</title>
 </head>
 
 <body>
@@ -100,24 +100,24 @@
                     </div>
 
                     <div class="form-group text-center">
-                        <input type="submit" value="log in"/>
+                        <input type="submit" value="Đăng nhập"/>
                     </div>
                 </form>
 
                 <div class="option">
-                    Bạn đã có tài khoản?
+                    Bạn chưa có tài khoản?
                     <a href="sign-up.html" th:href="${'/register'}">Đăng ký</a>
                 </div>
-                <div class="or"><span>Or</span></div>
+                <div class="or"><span>Hoặc tiếp tục với</span></div>
                 <ul class="social-icons">
                     <li>
-                        <a href="#0">
+                        <a th:href="@{/oauth2/authorization/facebook}" role="button">
                             <i class="fab fa-facebook-f"></i>
                         </a>
                     </li>
 
                     <li>
-                        <a href="/oauth2/authorization/google" role="button">
+                        <a th:href="@{/oauth2/authorization/google}" role="button">
                             <i class="fab fa-google"></i>
                         </a>
                     </li>

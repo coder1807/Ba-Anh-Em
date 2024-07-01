@@ -1,3 +1,5 @@
+let selectedSeats = [];
+let totalPrice = 0;
 window.onload = function() {
     var pTags = document.querySelectorAll(".chonViTri");
     var getLink = document.querySelector(".seatPlanButton");
@@ -10,8 +12,6 @@ window.onload = function() {
     }
 
     var seatImages = document.getElementsByClassName('seat-img');
-    let selectedSeats = [];
-    let totalPrice = 0;
 
     for (var i = 0; i < seatImages.length; i++) {
         // Lưu src gốc vào data-src-original và thiết lập trạng thái ban đầu là không được chọn
@@ -83,14 +83,18 @@ window.onload = function() {
             document.querySelector('.selected-seats').textContent = selectedSeatSymbols;
             document.querySelector('.total-price').textContent = totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
-  document.querySelector('#checkout-button').addEventListener('click', function() {
-      const selectedSeatSymbols = selectedSeats.map(seat => seat.symbol);
-      document.getElementById('selectedSeatsInput').value = JSON.stringify(selectedSeatSymbols);
-      document.getElementById('totalPriceInput').value = totalPrice;
-      document.getElementById('checkout-form').submit();
-  });
+    document.querySelector('#checkout-button').addEventListener('click', function() {
+       const selectedSeatSymbols = selectedSeats.map(seat => ({
+             id: seat.id,
+             symbol: seat.symbol,
+             price: seat.price
+         }));
+         document.getElementById('selectedSeatsInput').value = JSON.stringify(selectedSeatSymbols);
+         document.getElementById('totalPriceInput').value = totalPrice;
+         document.getElementById('checkout-form').submit();
+    });
 
-  document.querySelector(".tongTien").textContent = totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+//  document.querySelector(".tongTien").textContent = totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 
     //function xử lí thông báo
     function hienThiThongBao(text, duration, className) {
@@ -115,3 +119,5 @@ window.onload = function() {
     }
 
 }
+
+

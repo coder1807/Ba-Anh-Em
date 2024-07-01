@@ -25,6 +25,9 @@ public class Booking {
     @Column(name = "CINEMA_NAME")
     private String cinemaName;
 
+    @Column(name = "ROOM_NAME")
+    private String roomName;
+
     @Column(name = "CINEMA_ADDRESS")
     private String cinemaAddress;
 
@@ -32,7 +35,7 @@ public class Booking {
     private Date startTime;
 
     @Column(name = "CREAT_AT")
-   private Date createAt;
+    private Date createAt;
 
     @Column(name = "PRICE")
     private Long price;
@@ -49,6 +52,10 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "COMBO_ID")
+    private ComboFood comboFood;
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookingDetail> bookingDetails;

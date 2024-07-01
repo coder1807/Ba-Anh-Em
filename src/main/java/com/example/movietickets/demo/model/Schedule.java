@@ -28,8 +28,6 @@ public class Schedule {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date startTime;
 
-//    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Seat> seats;
 
     // Constructor without parameters
     public Schedule() {}

@@ -71,14 +71,14 @@ INSERT INTO Seat (image, status, seat_number, room_id, seat_type_id) VALUES
 ('/assets/img/seat/VIP.png', 'empty', 'F10', 1, 2),
 ('/assets/img/seat/VIP.png', 'empty', 'F11', 1, 2),
 ('/assets/img/seat/VIP.png', 'empty', 'F12', 1, 2),
-( '/assets/img/seat/couple.png','empty', 'G1,G2', 1, 4),
-( '/assets/img/seat/couple.png','empty', 'G3,G4', 1, 4),
-( '/assets/img/seat/couple.png','empty', 'G5,G6', 1, 4),
-( '/assets/img/seat/couple.png','empty', 'G7,G8', 1, 4),
-( '/assets/img/seat/couple.png','empty', 'G9,G10', 1, 4),
-( '/assets/img/seat/couple.png','empty', 'G11,G12', 1, 4),
-( '/assets/img/seat/couple.png','empty', 'G13,G14', 1, 4),
-( '/assets/img/seat/couple.png','empty', 'G15,G16', 1, 4);
+( '/assets/img/seat/couple.png','empty', 'G1 G2', 1, 4),
+( '/assets/img/seat/couple.png','empty', 'G3 G4', 1, 4),
+( '/assets/img/seat/couple.png','empty', 'G5 G6', 1, 4),
+( '/assets/img/seat/couple.png','empty', 'G7 G8', 1, 4),
+( '/assets/img/seat/couple.png','empty', 'G9 G10', 1, 4),
+( '/assets/img/seat/couple.png','empty', 'G11 G12', 1, 4),
+( '/assets/img/seat/couple.png','empty', 'G13 G14', 1, 4),
+( '/assets/img/seat/couple.png','empty', 'G15 G16', 1, 4);
 
 //Phòng Số 2 CineStar:
 INSERT INTO Seat (image, status, seat_number, room_id, seat_type_id) VALUES 
@@ -154,14 +154,14 @@ INSERT INTO Seat (image, status, seat_number, room_id, seat_type_id) VALUES
 ('/assets/img/seat/VIP.png', 'empty', 'F10', 2, 2),
 ('/assets/img/seat/VIP.png', 'empty', 'F11', 2, 2),
 ('/assets/img/seat/VIP.png', 'empty', 'F12', 2, 2),
-( '/assets/img/seat/couple.png','empty', 'G1,G2', 2, 4),
-( '/assets/img/seat/couple.png','empty', 'G3,G4', 2, 4),
-( '/assets/img/seat/couple.png','empty', 'G5,G6', 2, 4),
-( '/assets/img/seat/couple.png','empty', 'G7,G8', 2, 4),
-( '/assets/img/seat/couple.png','empty', 'G9,G10', 2, 4),
-( '/assets/img/seat/couple.png','empty', 'G11,G12', 2, 4),
-( '/assets/img/seat/couple.png','empty', 'G13,G14', 2, 4),
-( '/assets/img/seat/couple.png','empty', 'G15,G16', 2, 4);
+( '/assets/img/seat/couple.png','empty', 'G1 G2', 2, 4),
+( '/assets/img/seat/couple.png','empty', 'G3 G4', 2, 4),
+( '/assets/img/seat/couple.png','empty', 'G5 G6', 2, 4),
+( '/assets/img/seat/couple.png','empty', 'G7 G8', 2, 4),
+( '/assets/img/seat/couple.png','empty', 'G9 G10', 2, 4),
+( '/assets/img/seat/couple.png','empty', 'G11 G12', 2, 4),
+( '/assets/img/seat/couple.png','empty', 'G13 G14', 2, 4),
+( '/assets/img/seat/couple.png','empty', 'G15 G16', 2, 4);
 
 //Phòng số 03
 INSERT INTO Seat (image, status, seat_number, room_id, seat_type_id) VALUES 
@@ -237,13 +237,13 @@ INSERT INTO Seat (image, status, seat_number, room_id, seat_type_id) VALUES
 ('/assets/img/seat/VIP.png', 'empty', 'F10', 8, 2),
 ('/assets/img/seat/VIP.png', 'empty', 'F11', 8, 2),
 ('/assets/img/seat/VIP.png', 'empty', 'F12', 8, 2),
-( '/assets/img/seat/couple.png','empty', 'G1,G2', 8, 4),
-( '/assets/img/seat/couple.png','empty', 'G3,G4', 8, 4),
-( '/assets/img/seat/couple.png','empty', 'G5,G6', 8, 4),
-( '/assets/img/seat/couple.png','empty', 'G7,G8', 8, 4),
-( '/assets/img/seat/couple.png','empty', 'G9,G10', 8, 4),
-( '/assets/img/seat/couple.png','empty', 'G11,G12', 8, 4),
-( '/assets/img/seat/couple.png','empty', 'G13,G14', 8, 4),
-( '/assets/img/seat/couple.png','empty', 'G15,G16', 8, 4);
+( '/assets/img/seat/couple.png','empty', 'G1 G2', 8, 4),
+( '/assets/img/seat/couple.png','empty', 'G3 G4', 8, 4),
+( '/assets/img/seat/couple.png','empty', 'G5 G6', 8, 4),
+( '/assets/img/seat/couple.png','empty', 'G7 G8', 8, 4),
+( '/assets/img/seat/couple.png','empty', 'G9 G10', 8, 4),
+( '/assets/img/seat/couple.png','empty', 'G11 G12', 8, 4),
+( '/assets/img/seat/couple.png','empty', 'G13 G14', 8, 4),
+( '/assets/img/seat/couple.png','empty', 'G15 G16', 8, 4);
 
 

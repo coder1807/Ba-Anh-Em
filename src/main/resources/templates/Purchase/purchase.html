@@ -4,10 +4,20 @@
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Checkout</title>
+    <title>Ba Anh Em - Thanh toán</title>
 </head>
 <body>
 <section layout:fragment="content" th:object="${purchase}">
+    <!-- ==========Preloader========== -->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- ==========Preloader========== -->
     <section class="details-banner hero-area bg_img seat-plan-banner" data-background="/assets/img/banner/banner04.jpg"
              style="background-image: url(&quot;/assets/img/banner/banner04.jpg&quot;);">
         <div class="container">
@@ -31,7 +41,7 @@
                         <div class="title-area">
                             <h5 class="title">Bạn đã là thành viên của Ba Anh Em ?</h5>
                             <p>
-                               Đăng nhập ngay để nhận nhiều ưu đãi và đặt vé dễ dàng hơn
+                                Đăng nhập ngay để nhận nhiều ưu đãi và đặt vé dễ dàng hơn
                             </p>
                         </div>
                         <a href="#0" class="sign-in-area">
@@ -51,59 +61,74 @@
                         </form>
                     </div>
                     <div class="checkout-widget checkout-card mb-2">
-                        <h5 class="title">Lựa chọn phương thức</h5>
+                        <h5 class="title">Đa dạng phương thức</h5>
                         <ul class="payment-option">
                             <li>
                                 <a>
-                                    <img src="/assets/img/payment/card.png" alt="payment" />
+                                    <img src="/assets/img/payment/card.png" alt="payment"/>
                                     <span>Debit Card</span>
                                 </a>
                             </li>
                             <li class="active">
                                 <a>
-                                    <img src="/assets/img/payment/momo.png" alt="payment" />
+                                    <img src="/assets/img/payment/momo.png" alt="payment"/>
                                     <span>MOMO</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a>
+                                    <img src="/assets/img/payment/paypal.png" alt="payment"/>
+                                    <span>paypal</span>
                                 </a>
                             </li>
                             <li>
                                 <a>
-                                    <img src="/assets/img/payment/paypal.png" alt="payment" />
-                                    <span>paypal</span>
+                                    <img src="/assets/img/payment/v-vnpay-svgrepo-com.svg" alt="payment"/>
+                                    <span>VNPAY</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
-                    <div class="checkout-widget checkout-contact">
+                    <div th:if="${selectedSeats}">
+                        <!-- Các thông tin khác -->
+                        <div class="checkout-widget checkout-card mb-2">
+                            <form action="#" th:action="@{/purchase/checkout}" method="post">
+                                <input type="hidden" name="seatSymbols" th:value="${selectedSeats}" />
+                                <input type="hidden" name="totalPrice" th:value="${totalPrice}" />
+                                <input type="hidden" name="startTime" th:value="${startTime}" />
+                                <input type="hidden" name="filmTitle" th:value="${filmTitle}" />
+                                <input type="hidden" name="poster" th:value="${poster}" />
+                                <input type="hidden" name="category" th:value="${category}" />
+                                <input type="hidden" name="cinemaName" th:value="${cinemaName}" />
+                                <input type="hidden" name="cinemaAddress" th:value="${cinemaAddress}" />
+                                <input type="hidden" name="roomName" th:value="${roomName}" />
+                                <input type="hidden" name="scheduleId" th:value="${scheduleId}">
 
-<!--                        <div class="tab-item active">-->
-<!--                            <div class="row mb-10 justify-content-center" >-->
-<!--                                <div class="col-sm-6 col-lg-4" >-->
-<!--                                    <div class="movie-grid">-->
-<!--                                        <div class="movie-thumb c-thumb">-->
-<!--                                            <a th:href="#">-->
-<!--                                                <img th:src="${poster}" alt="movie">-->
-<!--                                            </a>-->
-<!--                                        </div>-->
-<!--                                        <div class="movie-content bg-one">-->
-<!--                                            <h5 class="title m-0">-->
-<!--&lt;!&ndash;                                                <a th:href="#" th:text="${filmTitle}" ></a>&ndash;&gt;-->
-<!--                                            </h5>-->
-<!--                                            <ul class="movie-rating-percent">-->
-<!--                                                <li>-->
-<!--                                                    <div class="thumb">-->
-<!--                                                        <img src="/assets/img/movie/tomato.png" alt="movie">-->
-<!--                                                    </div>-->
-<!--&lt;!&ndash;                                                    <span class="content" th:text="${category}" ></span>&ndash;&gt;-->
-<!--                                                </li>-->
-<!--                                            </ul>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                                <label for="payment">Phương thức thanh toán:</label>
+                                <select class="form-control" name="payment" id="payment">
+                                    <option value="">Chọn phương thức</option>
+                                    <option value="Cash">Trả tiền tại quầy</option>
+                                    <option value="momo">MOMO</option>
+                                    <option value="paypal">Paypal</option>
+                                    <option value="vnpay">VNPay</option>
+                                </select>
+                                <label for="combo">Chọn Combo:</label>
+                                <select name="comboId" id="combo">
+                                    <option th:each="combo : ${combos}" th:value="${combo.id}" th:text="${combo.name} + ' - ' + ${combo.price}"></option>
+                                </select>
 
-<!--                            </div>-->
-<!--                        </div>-->
+                                <button type="submit" class="custom-button mt-4">Thanh toán</button>
+                            </form>
+                        </div>
+                        <div th:if="${message}" class="mt-5">
+                            <p th:text="${message}" class="text-danger fw-bold"></p>
+                        </div>
                     </div>
+
+
                 </div>
+
                 <div class="col-lg-5">
                     <div class="booking-summery bg-one">
                         <h4 class="title">Chi tiết vé</h4>
@@ -132,7 +157,7 @@
                         <ul class="side-shape">
                             <li>
                                 <h6 class="subtitle mb-0">
-                                    <span>Ghế đã chọn</span>  <span th:text="${selectedSeats}"></span>
+                                    <span>Ghế đã chọn</span> <span th:text="${selectedSeats}"></span>
                                 </h6>
                             </li>
                         </ul>
@@ -148,7 +173,7 @@
                         <h6 class="subtitle">
                             <span>Tổng Cộng</span><span th:text="${totalPrice}"></span>
                         </h6>
-                        <a href="#0" class="custom-button back-button">Thanh toán</a>
+<!--                        <a href="#0" class="custom-button back-button">Thanh toán</a>-->
                     </div>
                 </div>
             </div>

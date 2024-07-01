@@ -1378,6 +1378,7 @@ input[type="submit"] {
 }
 
 .footer-top {
+    margin-top: 30px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 10px;
 }
@@ -1454,7 +1455,7 @@ input[type="submit"] {
 }
 
 .header-wrapper .logo {
-    width: 170px;
+    width: 185px;
 }
 
 @media (max-width: 1199px) and (min-width: 992px) {
@@ -2861,12 +2862,12 @@ input[type="submit"] {
 }
 
 .widget-1.widget-check .form-group label::before {
-    width: 14px;
+  /*  width: 14px;
     height: 14px;
     border: 1px solid #ffffff;
     border-radius: 1px;
     left: -14px;
-    top: 7px;
+    top: 7px;*/
 }
 
 @media (min-width: 992px) {

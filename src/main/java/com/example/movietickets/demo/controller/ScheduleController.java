@@ -30,16 +30,22 @@ public class ScheduleController {
     @GetMapping("/schedules/{id}")
     public String getSchedulesByFilmId(@PathVariable("id") Long id, Model model) {
         List<Schedule> schedules = scheduleService.getSchedulesByFilmId(id);
-        // Nhóm các schedules theo cinema
-        Map<Cinema, List<Schedule>> schedulesByCinema = schedules.stream()
-                .collect(Collectors.groupingBy(schedule -> schedule.getRoom().getCinema()));
-        // lay ra phim de truyen thong tin phim
-        Film film = schedules.isEmpty() ? null : schedules.get(0).getFilm();
-        model.addAttribute("schedulesByCinema", schedulesByCinema);
-        model.addAttribute("film", film);
-        model.addAttribute("title", "Danh sách lịch chiếu");
-        return "/schedule/schedule-detail";
+        if (!schedules.isEmpty()) {
+            // Nhóm các schedules theo cinema
+            Map<Cinema, List<Schedule>> schedulesByCinema = schedules.stream()
+                    .collect(Collectors.groupingBy(schedule -> schedule.getRoom().getCinema()));
+            // lay ra phim de truyen thong tin phim
+            Film film = schedules.isEmpty() ? null : schedules.get(0).getFilm();
+            model.addAttribute("schedulesByCinema", schedulesByCinema);
+            model.addAttribute("film", film);
+            model.addAttribute("title", "Danh sách lịch chiếu");
+            return "/schedule/schedule-detail";
+        } else {
+            return "redirect:/404";
+        }
     }
+
+
 
 
 }

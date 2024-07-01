@@ -4,7 +4,7 @@
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Ba Anh Em - Đặt vé xem phim online</title>
 
     <style>
         .flex-form{
@@ -26,6 +26,7 @@
         .type-country{
            margin-right: 20px;
            color: #31d7a9;
+           z-index: 1;
         }
 
         .list{
@@ -44,6 +45,7 @@
             margin-right: 10px;
             -webkit-box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
             box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+             z-index:1;
         }
 
         .thumn-country img {
@@ -69,16 +71,17 @@
         <div class="container">
             <div class="banner-content">
                 <h1 class="title cd-headline clip">
-                    <span class="d-block">book your</span> tickets for
+                    <span class="d-block">Đặt vé xem phim</span>
                     <span class="color-theme cd-words-wrapper p-0 m-0" style="width: 271.888px;">
-                            <b class="is-hidden">Movie</b>
-                            <b class="is-hidden">Event</b>
-                            <b class="is-visible">Sport</b>
+                            <b class="is-hidden pb-3">Tiện lợi</b>
+                            <b class="is-hidden pb-3">Đáng tin cậy</b>
+                            <b class="is-hidden pb-3">Thư giãn</b>
+                            <b class="is-visible pb-3">Nhanh chóng</b>
                         </span>
                 </h1>
                 <p>
-                    Safe, secure, reliable ticketing.Your ticket to live
-                    entertainment!
+                    Nhanh chóng, tiện lợi, đáng tin cậy.
+                    Enjoy you life!
                 </p>
             </div>
         </div>
@@ -86,12 +89,12 @@
 
     <section class="search-ticket-section padding-top pt-lg-0">
         <div class="container">
-            <div class="search-tab bg_img" data-background="./assets/img/ticket/ticket-bg01.jpg" style="background-image: url(&quot;./assets/img/ticket/ticket-bg01.jpg&quot;);">
+            <div class="search-tab bg_img" data-background="/assets/img/ticket/ticket-bg01.jpg" style="background-image: url(&quot;./assets/img/ticket/ticket-bg01.jpg&quot;);">
                 <div class="row align-items-center mb--20">
                     <div class="col-lg-6 mb-20">
                         <div class="search-ticket-header">
-                            <h6 class="category">welcome to Boleto</h6>
-                            <h3 class="title">what are you looking for</h3>
+                            <h6 class="category">Chào mừng đến với ba anh em</h6>
+                            <h3 class="title">Bạn đang tìm kiếm phim gì nè?</h3>
                         </div>
                     </div>
                     <div class="col-lg-6 mb-20">
@@ -135,7 +138,7 @@
                                     <div class="thumb-country">
                                         <img src="/assets/img/ticket/city.png" alt="ticket" />
                                     </div>
-                                    <span class="type type-country">City</span>
+                                    <span class="type type-country">Quốc gia: </span>
                                     <select class="select-bar" onchange="handleCountryChange(this)">
                                         <option value="" disabled selected>Chọn quốc gia</option>
                                         <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}"></option>
@@ -159,19 +162,19 @@
                                 <li>
                                     <a href="#0">
                                         <span class="img"><img src="./assets/img/sidebar/icons/sidebar01.png" alt="sidebar"></span>
-                                        <span class="cate">24X7 Care</span>
+                                        <span class="cate">24/7 Chăm sóc</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#0">
                                         <span class="img"><img src="./assets/img/sidebar/icons/sidebar02.png" alt="sidebar"></span>
-                                        <span class="cate">100% Assurance</span>
+                                        <span class="cate">100% Đảm bảo</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#0">
                                         <span class="img"><img src="./assets/img/sidebar/icons/sidebar03.png" alt="sidebar"></span>
-                                        <span class="cate">Our Promise</span>
+                                        <span class="cate">Chính sách của Ba Anh Em</span>
                                     </a>
                                 </li>
                             </ul>
@@ -180,7 +183,7 @@
                     <div class="widget-1 widget-banner">
                         <div class="widget-1-body">
                             <a href="#0">
-                                <img src="./assets/img/sidebar/banner/banner01.jpg" alt="banner">
+                                <img src="./assets/img/sidebar/banner/banner00.jpg" alt="banner">
                             </a>
                         </div>
                     </div>
@@ -469,3 +472,4 @@
     </section>
 </section>
 </body>
+</html>

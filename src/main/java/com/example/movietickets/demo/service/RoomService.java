@@ -26,6 +26,7 @@ public class RoomService {
         return roomRepository.findById(id);
     }
 
+
     public void addRoom(Room room) {
         roomRepository.save(room);
     }

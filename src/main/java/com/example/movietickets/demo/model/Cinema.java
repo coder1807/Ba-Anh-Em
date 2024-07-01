@@ -2,6 +2,7 @@ package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,11 @@ public class Cinema {
     @Column(name = "MAP", nullable = true)
     private String map;
 
+
     @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Room> rooms = new ArrayList<>();
+    private List<Room> rooms;
+
+//    @OneToMany(mappedBy = "room")
+//    private List<Seat> seats;
 
 }
