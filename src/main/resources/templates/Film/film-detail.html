@@ -380,11 +380,7 @@
                               th:object="${rating}"
                               enctype="multipart/form-data"
                             >
-                              <input
-                                type="hidden"
-                                th:value="${film.id}"
-                                name="filmId"
-                              />
+                              <input type="hidden" th:value="${film.id}"name="filmId" />
                               <!-- Trường ẩn để lưu id của film -->
                               <div class="form-group">
                                 <div class="rating-stars star-flex">
@@ -398,19 +394,10 @@
                                 <!-- Trường ẩn để lưu giá trị đánh giá sao -->
                               </div>
                               <div class="form-group">
-                                <textarea
-                                  placeholder="Viết cảm nghĩ của bạn"
-                                  name="content"
-                                  th:field="*{content}"
-                                  required
-                                ></textarea>
+                                <textarea placeholder="Viết cảm nghĩ của bạn" name="content" th:field="*{content}" required ></textarea>
                               </div>
                               <div class="form-group">
-                                <input
-                                  type="submit"
-                                  value="Comment"
-                                  onclick="return validateForm()"
-                                />
+                                <input type="submit" value="Comment" onclick="return validateForm()"/>
                               </div>
                             </form>
                           </div>
@@ -424,61 +411,38 @@
                         <h3>Bạn cần đăng nhập để có thể bình luận.</h3>
                       </div>
 
-                      <div
-                        class="movie-review-item"
-                        th:each="rating : ${ratings}"
-                      >
+                      <div class="movie-review-item" th:each="rating : ${ratings}" >
                         <div class="flex-rating">
                           <div class="movie-review-info">
                             <div>
-                              <span
-                                class="reply-date"
-                                th:text="${rating.getFormattedDate()}"
-                              ></span>
+                              <span class="reply-date"th:text="${rating.getFormattedDate()}"></span>
                             </div>
 
                             <h6 class="subtitle">
-                              <a
-                                href="#0"
-                                th:text="${rating.user.fullname}"
-                              ></a>
+                              <a href="#0" th:text="${rating.user.fullname}" ></a>
                             </h6>
                           </div>
 
                           <div class="movie-review-content">
                             <div class="review">
-                              <span
-                                th:each="star : ${#numbers.sequence(1, rating.star)}"
-                              >
+                              <span th:each="star : ${#numbers.sequence(1, rating.star)}">
                                 <i class="flaticon-favorite-heart-button"></i>
                               </span>
                             </div>
                           </div>
 
-                          <div
-                            sec:authorize="hasAuthority('admin')"
-                            style="margin-left: 85px"
-                          >
-                            <form
-                              th:action="@{/films/film-details/{filmId}/delete-rating/{ratingId}(filmId=${film.id}, ratingId=${rating.id})}"
+                          <div sec:authorize="hasAuthority('admin')" style="margin-left: 85px">
+                            <form th:action="@{/films/film-details/{filmId}/delete-rating/{ratingId}(filmId=${film.id}, ratingId=${rating.id})}"
                               method="post"
-                              style="display: inline"
-                            >
-                              <button
-                                type="submit"
-                                class="btn btn-danger btn-sm"
-                                onclick="return confirm('Bạn có chắc không ?')"
-                              >
+                              style="display: inline">
+                              <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')" >
                                 <i class="fa-solid fa-trash"></i>
                               </button>
                             </form>
                           </div>
                         </div>
 
-                        <p
-                          class="rating-content"
-                          th:text="${rating.content}"
-                        ></p>
+                        <p class="rating-content" th:text="${rating.content}"></p>
                       </div>
 
                       <!-- <div class="load-more text-center">

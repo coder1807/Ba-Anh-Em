@@ -51,6 +51,7 @@ window.onload = function() {
                           });
                           selectedSeats = [];
                           totalPrice = 0;
+
                       } else {
                           // Select the seat
                           this.setAttribute('data-selected', 'true');
@@ -105,7 +106,6 @@ window.onload = function() {
             stopOnFocus: true, // Prevents dismissing of toast on hover
             style: {
 //                background: "linear-gradient(to right, #00b09b, #0f0)",
-
                 width: 600,
                 height: 250,
             },

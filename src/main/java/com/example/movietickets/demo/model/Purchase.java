@@ -1,6 +1,7 @@
 package com.example.movietickets.demo.model;
 
 
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import java.util.Date;
 @Data
 @Getter
 @Setter
+@Table(name = "Purchase")
 public class Purchase {
     private Seat seat;
     private String seatSymbols;

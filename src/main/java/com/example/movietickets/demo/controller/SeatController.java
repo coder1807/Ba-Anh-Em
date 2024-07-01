@@ -53,6 +53,7 @@ public class SeatController {
         model.addAttribute("selectedRoomId", roomId);
         return "/seat/seat-list";
     }
+
     // SeatController
     @GetMapping("/schedules/{scheduleId}")
     public String getSeatsBySchedule(@PathVariable Long scheduleId, Model model) {
@@ -60,7 +61,7 @@ public class SeatController {
         Film film = optionalSchedule.map(Schedule::getFilm).orElse(null);//map schedule de lay thong tin film
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String currentTime = LocalTime.now().format(formatter);
-        //kiem tra biến optionalSchedul co chua value => get values
+        //kiem tra biến optional Schedule co chua value => get values
         if (optionalSchedule.isPresent()) {
             Schedule schedule = optionalSchedule.get();
             Long roomId = schedule.getRoom().getId();

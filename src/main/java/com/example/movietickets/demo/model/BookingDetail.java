@@ -23,10 +23,4 @@ public class BookingDetail {
     @Column(name = "TOTAL_PRICE")
     private Long price;
 
-    @Column(name = "SOLUONGVE")
-    private int soLuong;
-
-    @ManyToOne
-    @JoinColumn(name = "COMBO_ID")
-    private ComboFood comboFood;
 }
