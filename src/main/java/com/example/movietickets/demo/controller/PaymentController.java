@@ -3,36 +3,67 @@ package com.example.movietickets.demo.controller;
 
 import com.example.movietickets.demo.DTO.PaymentResDTO;
 import com.example.movietickets.demo.config.Config;
+import com.example.movietickets.demo.model.*;
+import com.example.movietickets.demo.repository.RoomRepository;
+import com.example.movietickets.demo.repository.SeatRepository;
+import com.example.movietickets.demo.repository.UserRepository;
+import com.example.movietickets.demo.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/payment")
 public class PaymentController {
 
-    @GetMapping("create_payment")
-    public ResponseEntity<?> createPayment( ) throws UnsupportedEncodingException {
+    @Autowired
+    private PurchaseService purchaseService;
 
+    @Autowired
+    private BookingService bookingService;
+
+    @Autowired
+    private SeatRepository seatRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ScheduleServiceImpl scheduleService;
+
+    @Autowired
+    private ComboFoodService comboFoodService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @GetMapping("create_payment")
+    public ResponseEntity<?> createPayment(@RequestParam("amount") long amount, @RequestParam("scheduleId") Long scheduleId) throws UnsupportedEncodingException {
+
+        // Kiểm tra giá trị amount
+        System.out.println("Amount received: " + amount);
 
         //String orderType = "other";
         //long amount = Integer.parseInt(req.getParameter("amount"))*100;
         //String bankCode = req.getParameter("bankCode");
 
-        long amount = 10000;
+        //long amount = 10000;
         String amountValue = String.valueOf(amount*100);
         String vnp_TxnRef = Config.getRandomNumber(8);
         //String vnp_IpAddr = Config.getIpAddress(req);
@@ -100,14 +131,73 @@ public class PaymentController {
         paymentResDTO.setMessage("Successfully");
         paymentResDTO.setUrl(paymentUrl);
 
+        Purchase purchase = purchaseService.Get();
+        List<String> seatSymbols = new ArrayList<>();
+        for (Purchase.Seat2 seat : purchase.getSeatsList()) {
+            seatSymbols.add(seat.getSymbol());
+        }
 
-        return ResponseEntity.status(HttpStatus.OK).body(paymentResDTO);
+        Room room = roomRepository.findByName(purchase.getRoomName());
+        List<Seat> seats = bookingService.getSeatsFromSymbolsAndRoom(seatSymbols, room);
+
+        // Lấy schedule từ scheduleId
+        Schedule schedule = scheduleService.getScheduleById(scheduleId).orElseThrow(() -> new IllegalArgumentException("Invalid schedule Id"));
+
+
+
+        Booking booking = new Booking();
+        booking.setFilmName(purchase.getFilmTitle());
+        booking.setPoster(purchase.getPoster());
+        booking.setCinemaName(purchase.getCinemaName());
+        booking.setCinemaAddress(purchase.getCinemaAddress());
+        booking.setStartTime(parseDate(purchase.getStartTime()));
+        booking.setPrice(purchase.getTotalPrice());
+        booking.setSeatName(purchase.getSeats());
+        booking.setRoomName(purchase.getRoomName());
+        booking.setPayment("vnpay");
+        booking.setStatus(true); // Hoặc giá trị khác tùy vào logic của bạn
+        booking.setCreateAt(new Date());
+
+        // Lấy thông tin người dùng hiện tại
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        booking.setUser(user);
+
+
+        bookingService.saveBooking(booking, seats, schedule);
+
+        // Trả về trang HTML tự động chuyển hướng
+        String htmlResponse = "<html><body>"
+                + "<form id='paymentForm' action='" + paymentUrl + "' method='GET'></form>"
+                + "<script type='text/javascript'>document.getElementById('paymentForm').submit();</script>"
+                + "</body></html>";
+
+       // return ResponseEntity.status(HttpStatus.OK).body(htmlResponse);
+
+        //return ResponseEntity.status(HttpStatus.OK).body(paymentResDTO);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(paymentUrl));
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
 
         //return paymentUrl;
 
     }
 
-    @GetMapping("/payment_infor")
+
+
+    private Date parseDate(String dateStr) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return dateFormat.parse(dateStr);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /*@GetMapping("/payment_infor")
     public String transaction(@RequestParam(value = "vnp_amount") String amount,
                                          @RequestParam(value = "vnp_BankCode") String bankcode,
                                          @RequestParam(value = "vnp_OrderInfo") String order,
@@ -118,5 +208,5 @@ public class PaymentController {
         }
 
         return "/transaction/transaction-error";
-    }
+    }*/
 }

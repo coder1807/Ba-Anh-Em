@@ -79,6 +79,11 @@ public class Film {
         }
         return Arrays.asList(actor.split("\\s*,\\s*")); // loại bỏ khoảng trắng thua và tách theo dấu phẩy
     }
+
+    @Override
+    public String toString() {
+        return "Film{id=" + id + ", name='" + name + "'}";
+    }
 //    @Override
 //    public String toString() {
 //        return "Film{" +

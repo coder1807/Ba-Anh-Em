@@ -25,6 +25,11 @@ public class Country {
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Film> films;
 
+    @Override
+    public String toString() {
+        return "Country{id=" + id + ", name='" + name + "'}";
+    }
+
 //    @Override
 //    public String toString() {
 //        return "Country{" +

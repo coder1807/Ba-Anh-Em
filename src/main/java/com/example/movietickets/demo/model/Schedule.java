@@ -37,4 +37,8 @@ public class Schedule {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Schedule{id=" + id + " }";
+    }
 }

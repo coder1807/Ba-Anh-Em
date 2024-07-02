@@ -113,10 +113,6 @@
                                     <option value="paypal">Paypal</option>
                                     <option value="vnpay">VNPay</option>
                                 </select>
-                                <label for="combo">Chọn Combo:</label>
-                                <select name="comboId" id="combo">
-                                    <option th:each="combo : ${combos}" th:value="${combo.id}" th:text="${combo.name} + ' - ' + ${combo.price}"></option>
-                                </select>
 
                                 <button type="submit" class="custom-button mt-4">Thanh toán</button>
                             </form>

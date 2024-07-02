@@ -81,5 +81,6 @@ public class BookingService {
             seatRepository.save(seat);
         }
     }
+
 }
 

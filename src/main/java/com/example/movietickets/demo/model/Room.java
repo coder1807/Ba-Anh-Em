@@ -36,4 +36,9 @@ public class Room {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seat> seats ;
 
+    @Override
+    public String toString() {
+        return "Room{id=" + id + ", name='" + name + "'}";
+    }
+
 }
