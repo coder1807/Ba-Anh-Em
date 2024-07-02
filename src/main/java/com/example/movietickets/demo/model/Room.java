@@ -27,6 +27,7 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "CINEMA_ID")
+    @ToString.Exclude
     private Cinema cinema;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)

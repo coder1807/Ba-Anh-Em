@@ -6,9 +6,7 @@ import com.example.movietickets.demo.config.Config;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import java.io.IOException;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -21,19 +19,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 @RestController
 @RequestMapping("/api/payment")
-public class PaymentCotroller {
+public class PaymentController {
 
     @GetMapping("create_payment")
     public ResponseEntity<?> createPayment( ) throws UnsupportedEncodingException {

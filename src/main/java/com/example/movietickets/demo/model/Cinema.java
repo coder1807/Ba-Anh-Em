@@ -28,6 +28,7 @@ public class Cinema {
 
 
     @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Room> rooms;
 
 //    @OneToMany(mappedBy = "room")
