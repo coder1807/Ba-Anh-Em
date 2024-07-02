@@ -1,59 +1,95 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+      layout:decorate="~{admin/layout}">
 <head>
-    <title>Edit Seat</title>
+    <meta charset="UTF-8">
+    <title></title>
 </head>
 <body>
-<section layout:fragment="content" class="container mt-5">
-    <!-- BREADCRUMB -->
-    <div class="container-fluid bg-breadcrumb">
-        <div class="container text-center py-5" style="max-width: 900px;">
-            <h3 class="display-3 mb-4 fw-bolder">Trang sửa ghế </h3>
-            <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="/home/index">Trang chủ</a></li>
-                <li class="breadcrumb-item active">Sửa ghế</li>
-            </ol>
-        </div>
-    </div>
-    <!-- /BREADCRUMB -->
-    <div class="container">
-        <form th:action="@{/admin/seats/edit/{id}(id=${seat.id})}" th:object="${seat}" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="symbol" class="form-label">Seat Number:</label>
-                <input type="text" id="symbol" th:field="*{symbol}" class="form-control" />
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Image:</label>
-                <input type="file" id="image" name="image" th:field="*{image}" class="form-control" />
-                <img th:src="@{${seat.image}}" alt="" style="max-width:100px">
-            </div>
-            <div class="mb-3">
-                <label for="status">Status:</label>
-                <input type="text" id="status" th:field="*{status}" class="form-control" />
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="room">Room:</label>
-                <select class="form-control" id="room" th:field="*{room.id}">
-                    <option value="">Chọn phòng</option>
-                    <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.name}"></option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="seattype">Seat Type:</label>
-                <select class="form-control" id="seattype" th:field="*{seattype.id}">
-                    <option value="">Chọn loại ghế</option>
-                    <option th:each="seattype : ${seattypes}" th:value="${seattype.id}" th:text="${seattype.type}"></option>
-                </select>
-            </div>
+<section layout:fragment="content">
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- main title -->
+                <div class="col-12">
+                    <div class="main__title">
+                        <h2 th:text="${title}"></h2>
+                    </div>
+                </div>
+                <!-- end main title -->
 
-            <div>
-                <button class="btn btn-warning w-100 mb-3" type="submit">Update</button>
-                <a th:href="@{/admin/seats}" class="btn btn-danger w-100">Hủy</a>
+                <!-- form -->
+                <div class="col-12">
+                    <form th:action="@{/admin/seats/edit/{id}(id=${seat.id})}" th:object="${seat}" method="POST"
+                          class="profile__form"
+                          enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-12 col-md-5 form__cover">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-12">
+                                        <div class="form__img">
+                                            <label for="form__img-upload">Upload cover (270 x 400)</label>
+                                            <input id="form__img-upload" th:field="*{image}" name="form__img-upload"
+                                                   type="file" accept=".png, .jpg, .jpeg">
+                                            <img id="form__img" th:src="*{image}" alt=" ">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-7 form__content">
+                                <div class="row">
+                                    <div class="col-12  col-lg-6">
+                                        <label class="profile__label" for="room">Số ghế</label>
+                                        <input type="text" class="form__input" placeholder="A,B,C,D... + 1,2,3..."
+                                               title="seatnumber"
+                                               th:field="*{symbol}" name="seatnumber" required/>
+                                    </div>
+                                    <div class="col-12  col-lg-6">
+                                        <label class="profile__label" for="room">Trạng thái</label>
+                                        <input type="text" class="form__input"
+                                               title="Trạng thái"
+                                               th:field="*{status}" name="status" required/>
+                                    </div>
+                                    <div class="col-12 col-lg-6">
+                                        <div class="profile__group">
+                                            <label class="profile__label" for="room">Phòng</label>
+                                            <select class="js-example-basic-single" id="room" th:field="*{room.id}"
+                                                    name="room_id">
+                                                <option value="">Chọn phòng</option>
+                                                <option th:each="item: ${rooms}" th:value="${item.id}"
+                                                        th:text="${item.name}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-6">
+                                        <div class="profile__group">
+                                            <label class="profile__label" for="seat_type">Loại ghế</label>
+                                            <select class="js-example-basic-single" id="seat_type"
+                                                    th:field="*{seattype.id}" name="seattype_id">
+                                                <option value="">Chọn loại ghế</option>
+                                                <option th:each="item : ${seattypes}" th:value="${item.id}"
+                                                        th:text="${item.type}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button type="submit" class="form__btn">thực hiện</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- end form -->
             </div>
-        </form>
-    </div>
+        </div>
+    </main>
 </section>
 </body>
 </html>

@@ -25,11 +25,12 @@ public class FeedbackController {
     @Autowired
     private final CategoryService categoryService;
 
+    
+
     @GetMapping("/feedback")
     public String showForm(Model model) {
         model.addAttribute("feedback", new Feedback());
         List<Category> categories = categoryService.getAllCategories();
-
         model.addAttribute("categories", categories);
         return "feedback/feedback-form";
     }

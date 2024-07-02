@@ -8,6 +8,7 @@ import com.example.movietickets.demo.repository.RoomRepository;
 import com.example.movietickets.demo.repository.SeatRepository;
 import com.example.movietickets.demo.repository.UserRepository;
 import com.example.movietickets.demo.service.*;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,11 +16,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -53,8 +72,9 @@ public class PaymentController {
     @Autowired
     private CategoryService categoryService;
 
+
     @GetMapping("create_payment")
-    public ResponseEntity<?> createPayment(@RequestParam("amount") long amount, @RequestParam("scheduleId") Long scheduleId) throws UnsupportedEncodingException {
+    public ResponseEntity<?> createPayment(@RequestParam("amount") long amount, @RequestParam("scheduleId") Long scheduleId, @RequestParam("comboId") String comboId) throws UnsupportedEncodingException {
 
         // Kiểm tra giá trị amount
         System.out.println("Amount received: " + amount);
@@ -142,7 +162,14 @@ public class PaymentController {
 
         // Lấy schedule từ scheduleId
         Schedule schedule = scheduleService.getScheduleById(scheduleId).orElseThrow(() -> new IllegalArgumentException("Invalid schedule Id"));
-
+            // Tách comboId và comboPrice từ giá trị của request parameter
+            Long comboFoodId = null;
+            Long comboPrice = 0L;
+            if (!comboId.equals("0-0")) { // Kiểm tra xem có chọn combo hay không
+                String[] comboDetails = comboId.split("-");
+                comboFoodId = Long.parseLong(comboDetails[0]);
+                comboPrice = Long.parseLong(comboDetails[1]);
+            }
 
 
         Booking booking = new Booking();
@@ -151,17 +178,23 @@ public class PaymentController {
         booking.setCinemaName(purchase.getCinemaName());
         booking.setCinemaAddress(purchase.getCinemaAddress());
         booking.setStartTime(parseDate(purchase.getStartTime()));
-        booking.setPrice(purchase.getTotalPrice());
         booking.setSeatName(purchase.getSeats());
         booking.setRoomName(purchase.getRoomName());
         booking.setPayment("vnpay");
         booking.setStatus(true); // Hoặc giá trị khác tùy vào logic của bạn
         booking.setCreateAt(new Date());
+        booking.setPrice(purchase.getTotalPrice()+ comboPrice); //cộng thêm giá từ food
+
+        if (comboFoodId != null) {
+            ComboFood comboFood = comboFoodService.getComboFoodById(comboFoodId).orElseThrow(() -> new EntityNotFoundException("Combo not found"));
+            booking.setComboFood(comboFood);
+        }
+
 
         // Lấy thông tin người dùng hiện tại
+        // Lấy thông tin người dùng hiện tại
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = getUserFromAuthentication(authentication);
         booking.setUser(user);
 
 
@@ -173,7 +206,7 @@ public class PaymentController {
                 + "<script type='text/javascript'>document.getElementById('paymentForm').submit();</script>"
                 + "</body></html>";
 
-       // return ResponseEntity.status(HttpStatus.OK).body(htmlResponse);
+        // return ResponseEntity.status(HttpStatus.OK).body(htmlResponse);
 
         //return ResponseEntity.status(HttpStatus.OK).body(paymentResDTO);
 
@@ -185,8 +218,6 @@ public class PaymentController {
 
     }
 
-
-
     private Date parseDate(String dateStr) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -196,17 +227,30 @@ public class PaymentController {
             return null;
         }
     }
-
-    /*@GetMapping("/payment_infor")
-    public String transaction(@RequestParam(value = "vnp_amount") String amount,
-                                         @RequestParam(value = "vnp_BankCode") String bankcode,
-                                         @RequestParam(value = "vnp_OrderInfo") String order,
-                                         @RequestParam(value = "vnp_ResponseCode") String responseCode){
-
-        if(responseCode == "00"){
-            return "/transaction/transaction-success";
+    private User getUserFromAuthentication(Authentication authentication) {
+        if (authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.User) {
+            // Trường hợp đăng nhập thông thường
+            String username = ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername();
+            return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        } else if (authentication.getPrincipal() instanceof DefaultOAuth2User) {
+            // Trường hợp đăng nhập bằng OAuth2 (Facebook, Google)
+            String email = ((DefaultOAuth2User) authentication.getPrincipal()).getAttribute("email");
+            return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         }
+        throw new UsernameNotFoundException("User not found");
+    }
 
-        return "/transaction/transaction-error";
-    }*/
+
+//    @GetMapping("/payment_infor")
+//    public String transaction(@RequestParam(value = "vnp_amount") String amount,
+//                              @RequestParam(value = "vnp_BankCode") String bankcode,
+//                              @RequestParam(value = "vnp_OrderInfo") String order,
+//                              @RequestParam(value = "vnp_ResponseCode") String responseCode){
+//
+//        if(responseCode == "00"){
+//            return "/transaction/transaction-success";
+//        }
+//
+//        return "/transaction/transaction-error";
+//    }
 }

@@ -5,7 +5,6 @@ import lombok.Data;
 
 import java.util.List;
 
-
 @Data
 @Entity
 @Table(name = "Seat")
@@ -36,7 +35,8 @@ public class Seat {
     private List<BookingDetail> bookingDetails;
 
     // Constructor without parameters
-    public Seat() {}
+    public Seat() {
+    }
 
     // Constructor with schedule ID
     public Seat(Long id) {

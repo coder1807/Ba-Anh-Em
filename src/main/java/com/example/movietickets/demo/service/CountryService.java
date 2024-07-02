@@ -1,7 +1,6 @@
 package com.example.movietickets.demo.service;
 
 
-
 import com.example.movietickets.demo.model.Category;
 import com.example.movietickets.demo.model.Country;
 import com.example.movietickets.demo.repository.CountryRepository;
@@ -13,16 +12,15 @@ import java.util.List;
 import java.util.Optional;
 
 
-
 @Service
 @RequiredArgsConstructor
 //khởi tạo constructor tự động
 
 public class CountryService {
-     private final CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
 
     public List<Country> getAllCountries() {
-        return countryRepository.findAll();
+        return countryRepository.findAllByOrderByIdDesc();
     }
 
     public Optional<Country> getCountryById(Long id) {
@@ -39,6 +37,7 @@ public class CountryService {
         existingCategory.setName(country.getName());
         countryRepository.save(existingCategory);
     }
+
     public void deleteCountry(Long id) {
         if (!countryRepository.existsById(id)) {
             throw new IllegalStateException("Country with ID " + id + " does not exist.");

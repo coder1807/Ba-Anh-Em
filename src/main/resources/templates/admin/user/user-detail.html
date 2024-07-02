@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- main title -->
+                <div class="col-12">
+                    <div class="main__title">
+                        <h2 th:text="${title}"></h2>
+                    </div>
+                </div>
+                <!-- end main title -->
+
+                <!-- form -->
+                <div class="col-12">
+                    <div class="row">
+                        <form action="#" th:object="${user}" class="profile__form">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="profile__title">Thông tin</h4>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                    <div class="profile__group">
+                                        <label class="profile__label" for="id">ID người dùng</label>
+                                        <input id="id" type="text" class="profile__input" th:field="*{id}" disabled/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                    <div class="profile__group">
+                                        <label class="profile__label" for="full_name">Họ tên</label>
+                                        <input id="full_name" type="text" class="profile__input"
+                                               th:field="*{fullname}" disabled/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                    <div class="profile__group">
+                                        <label class="profile__label" for="email">Email</label>
+                                        <input id="email" type="email" class="profile__input" th:field="*{email}"
+                                               disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- end form -->
+            </div>
+        </div>
+    </main>
+</section>
+</body>
+</html>

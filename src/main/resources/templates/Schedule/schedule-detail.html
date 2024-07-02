@@ -25,7 +25,7 @@
             <div class="thumb">
                 <img src="/assets/img/movie/seat-plan.png" alt="movie">
             </div>
-            <a  href="" class="custom-button seatPlanButton">Chọn ghế<i
+            <a href="" class="custom-button seatPlanButton">Chọn ghế<i
                     class="fas fa-angle-right"></i></a>
         </div>
     </section>
@@ -36,116 +36,116 @@
             <div class="details-banner-wrapper">
                 <div class="details-banner-content">
                     <h3 class="title" th:text="${film.name}"></h3>
-                    <div class="tags">
-                        <a href="#0" th:text="${film.category.name}"></a>
+                    <div class="tags" th:if="${film.categories != null}">
+                        <a href="#0" th:each="category : ${film.categories}" th:text="${category.name}"></a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-<!--    <section class="book-section bg-one">-->
-<!--        <div class="container">-->
-<!--            <form class="ticket-search-form two">-->
-<!--                <div class="form-group">-->
-<!--                    <div class="thumb">-->
-<!--                        <img src="/assets/img/ticket/city.png" alt="ticket">-->
-<!--                    </div>-->
-<!--                    <span class="type">city</span>-->
-<!--                    <select class="select-bar" style="display: none;">-->
-<!--                        <option value="london">London</option>-->
-<!--                        <option value="dhaka">dhaka</option>-->
-<!--                        <option value="rosario">rosario</option>-->
-<!--                        <option value="madrid">madrid</option>-->
-<!--                        <option value="koltaka">kolkata</option>-->
-<!--                        <option value="rome">rome</option>-->
-<!--                        <option value="khoksa">khoksa</option>-->
-<!--                    </select>-->
-<!--                    <div class="nice-select select-bar" tabindex="0"><span class="current">London</span>-->
-<!--                        <ul class="list">-->
-<!--                            <li data-value="london" class="option selected">London</li>-->
-<!--                            <li data-value="dhaka" class="option">dhaka</li>-->
-<!--                            <li data-value="rosario" class="option">rosario</li>-->
-<!--                            <li data-value="madrid" class="option">madrid</li>-->
-<!--                            <li data-value="koltaka" class="option">kolkata</li>-->
-<!--                            <li data-value="rome" class="option">rome</li>-->
-<!--                            <li data-value="khoksa" class="option">khoksa</li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                    <div class="thumb">-->
-<!--                        <img src="/assets/img/ticket/date.png" alt="ticket">-->
-<!--                    </div>-->
-<!--                    <span class="type">date</span>-->
-<!--                    <select class="select-bar" style="display: none;">-->
-<!--                        <option value="26-12-19">23/10/2020</option>-->
-<!--                        <option value="26-12-19">24/10/2020</option>-->
-<!--                        <option value="26-12-19">25/10/2020</option>-->
-<!--                        <option value="26-12-19">26/10/2020</option>-->
-<!--                    </select>-->
-<!--                    <div class="nice-select select-bar" tabindex="0"><span class="current">23/10/2020</span>-->
-<!--                        <ul class="list">-->
-<!--                            <li data-value="26-12-19" class="option selected">23/10/2020</li>-->
-<!--                            <li data-value="26-12-19" class="option">24/10/2020</li>-->
-<!--                            <li data-value="26-12-19" class="option">25/10/2020</li>-->
-<!--                            <li data-value="26-12-19" class="option">26/10/2020</li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                    <div class="thumb">-->
-<!--                        <img src="/assets/img/ticket/cinema.png" alt="ticket">-->
-<!--                    </div>-->
-<!--                    <span class="type">cinema</span>-->
-<!--                    <select class="select-bar" style="display: none;">-->
-<!--                        <option value="Awaken">Awaken</option>-->
-<!--                        <option value="Venus">Venus</option>-->
-<!--                        <option value="wanted">wanted</option>-->
-<!--                        <option value="joker">joker</option>-->
-<!--                        <option value="fid">fid</option>-->
-<!--                        <option value="kidio">kidio</option>-->
-<!--                        <option value="mottus">mottus</option>-->
-<!--                    </select>-->
-<!--                    <div class="nice-select select-bar" tabindex="0"><span class="current">Awaken</span>-->
-<!--                        <ul class="list">-->
-<!--                            <li data-value="Awaken" class="option selected">Awaken</li>-->
-<!--                            <li data-value="Venus" class="option">Venus</li>-->
-<!--                            <li data-value="wanted" class="option">wanted</li>-->
-<!--                            <li data-value="joker" class="option">joker</li>-->
-<!--                            <li data-value="fid" class="option">fid</li>-->
-<!--                            <li data-value="kidio" class="option">kidio</li>-->
-<!--                            <li data-value="mottus" class="option">mottus</li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                    <div class="thumb">-->
-<!--                        <img src="/assets/img/ticket/exp.png" alt="ticket">-->
-<!--                    </div>-->
-<!--                    <span class="type">Experience</span>-->
-<!--                    <select class="select-bar" style="display: none;">-->
-<!--                        <option value="English-2D">English-2D</option>-->
-<!--                        <option value="English-3D">English-3D</option>-->
-<!--                        <option value="Hindi-2D">Hindi-2D</option>-->
-<!--                        <option value="Hindi-3D">Hindi-3D</option>-->
-<!--                        <option value="Telegu-2D">Telegu-2D</option>-->
-<!--                        <option value="Telegu-3D">Telegu-3D</option>-->
-<!--                    </select>-->
-<!--                    <div class="nice-select select-bar" tabindex="0"><span class="current">English-2D</span>-->
-<!--                        <ul class="list">-->
-<!--                            <li data-value="English-2D" class="option selected">English-2D</li>-->
-<!--                            <li data-value="English-3D" class="option">English-3D</li>-->
-<!--                            <li data-value="Hindi-2D" class="option">Hindi-2D</li>-->
-<!--                            <li data-value="Hindi-3D" class="option">Hindi-3D</li>-->
-<!--                            <li data-value="Telegu-2D" class="option">Telegu-2D</li>-->
-<!--                            <li data-value="Telegu-3D" class="option">Telegu-3D</li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </section>-->
+    <!--    <section class="book-section bg-one">-->
+    <!--        <div class="container">-->
+    <!--            <form class="ticket-search-form two">-->
+    <!--                <div class="form-group">-->
+    <!--                    <div class="thumb">-->
+    <!--                        <img src="/assets/img/ticket/city.png" alt="ticket">-->
+    <!--                    </div>-->
+    <!--                    <span class="type">city</span>-->
+    <!--                    <select class="select-bar" style="display: none;">-->
+    <!--                        <option value="london">London</option>-->
+    <!--                        <option value="dhaka">dhaka</option>-->
+    <!--                        <option value="rosario">rosario</option>-->
+    <!--                        <option value="madrid">madrid</option>-->
+    <!--                        <option value="koltaka">kolkata</option>-->
+    <!--                        <option value="rome">rome</option>-->
+    <!--                        <option value="khoksa">khoksa</option>-->
+    <!--                    </select>-->
+    <!--                    <div class="nice-select select-bar" tabindex="0"><span class="current">London</span>-->
+    <!--                        <ul class="list">-->
+    <!--                            <li data-value="london" class="option selected">London</li>-->
+    <!--                            <li data-value="dhaka" class="option">dhaka</li>-->
+    <!--                            <li data-value="rosario" class="option">rosario</li>-->
+    <!--                            <li data-value="madrid" class="option">madrid</li>-->
+    <!--                            <li data-value="koltaka" class="option">kolkata</li>-->
+    <!--                            <li data-value="rome" class="option">rome</li>-->
+    <!--                            <li data-value="khoksa" class="option">khoksa</li>-->
+    <!--                        </ul>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="form-group">-->
+    <!--                    <div class="thumb">-->
+    <!--                        <img src="/assets/img/ticket/date.png" alt="ticket">-->
+    <!--                    </div>-->
+    <!--                    <span class="type">date</span>-->
+    <!--                    <select class="select-bar" style="display: none;">-->
+    <!--                        <option value="26-12-19">23/10/2020</option>-->
+    <!--                        <option value="26-12-19">24/10/2020</option>-->
+    <!--                        <option value="26-12-19">25/10/2020</option>-->
+    <!--                        <option value="26-12-19">26/10/2020</option>-->
+    <!--                    </select>-->
+    <!--                    <div class="nice-select select-bar" tabindex="0"><span class="current">23/10/2020</span>-->
+    <!--                        <ul class="list">-->
+    <!--                            <li data-value="26-12-19" class="option selected">23/10/2020</li>-->
+    <!--                            <li data-value="26-12-19" class="option">24/10/2020</li>-->
+    <!--                            <li data-value="26-12-19" class="option">25/10/2020</li>-->
+    <!--                            <li data-value="26-12-19" class="option">26/10/2020</li>-->
+    <!--                        </ul>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="form-group">-->
+    <!--                    <div class="thumb">-->
+    <!--                        <img src="/assets/img/ticket/cinema.png" alt="ticket">-->
+    <!--                    </div>-->
+    <!--                    <span class="type">cinema</span>-->
+    <!--                    <select class="select-bar" style="display: none;">-->
+    <!--                        <option value="Awaken">Awaken</option>-->
+    <!--                        <option value="Venus">Venus</option>-->
+    <!--                        <option value="wanted">wanted</option>-->
+    <!--                        <option value="joker">joker</option>-->
+    <!--                        <option value="fid">fid</option>-->
+    <!--                        <option value="kidio">kidio</option>-->
+    <!--                        <option value="mottus">mottus</option>-->
+    <!--                    </select>-->
+    <!--                    <div class="nice-select select-bar" tabindex="0"><span class="current">Awaken</span>-->
+    <!--                        <ul class="list">-->
+    <!--                            <li data-value="Awaken" class="option selected">Awaken</li>-->
+    <!--                            <li data-value="Venus" class="option">Venus</li>-->
+    <!--                            <li data-value="wanted" class="option">wanted</li>-->
+    <!--                            <li data-value="joker" class="option">joker</li>-->
+    <!--                            <li data-value="fid" class="option">fid</li>-->
+    <!--                            <li data-value="kidio" class="option">kidio</li>-->
+    <!--                            <li data-value="mottus" class="option">mottus</li>-->
+    <!--                        </ul>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="form-group">-->
+    <!--                    <div class="thumb">-->
+    <!--                        <img src="/assets/img/ticket/exp.png" alt="ticket">-->
+    <!--                    </div>-->
+    <!--                    <span class="type">Experience</span>-->
+    <!--                    <select class="select-bar" style="display: none;">-->
+    <!--                        <option value="English-2D">English-2D</option>-->
+    <!--                        <option value="English-3D">English-3D</option>-->
+    <!--                        <option value="Hindi-2D">Hindi-2D</option>-->
+    <!--                        <option value="Hindi-3D">Hindi-3D</option>-->
+    <!--                        <option value="Telegu-2D">Telegu-2D</option>-->
+    <!--                        <option value="Telegu-3D">Telegu-3D</option>-->
+    <!--                    </select>-->
+    <!--                    <div class="nice-select select-bar" tabindex="0"><span class="current">English-2D</span>-->
+    <!--                        <ul class="list">-->
+    <!--                            <li data-value="English-2D" class="option selected">English-2D</li>-->
+    <!--                            <li data-value="English-3D" class="option">English-3D</li>-->
+    <!--                            <li data-value="Hindi-2D" class="option">Hindi-2D</li>-->
+    <!--                            <li data-value="Hindi-3D" class="option">Hindi-3D</li>-->
+    <!--                            <li data-value="Telegu-2D" class="option">Telegu-2D</li>-->
+    <!--                            <li data-value="Telegu-3D" class="option">Telegu-3D</li>-->
+    <!--                        </ul>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </form>-->
+    <!--        </div>-->
+    <!--    </section>-->
 
 
     <!-- Danh sách lịch chiếu theo rạp -->
@@ -167,11 +167,11 @@
                                     <div class="location-icon mr-2">
                                         <i class="fas fa-map-marker-alt"></i>
                                     </div>
-                                    <div  th:text="${entry.key.address}"></div>
+                                    <div th:text="${entry.key.address}"></div>
                                 </div>
                                 <div class="d-flex align-items-center mt-3 ">
                                     <div class="location-icon mr-2">
-                                        <i class="fa-solid fa-map" ></i>
+                                        <i class="fa-solid fa-map"></i>
                                     </div>
                                     <a th:href="@{${entry.key.map}}" target="_blank" rel="noopener">Xem bản đồ</a>
                                 </div>
@@ -179,13 +179,13 @@
                             </div>
                             <div class="movie-schedule">
                                 <div th:each="schedule : ${entry.value}">
-<!--                                    Action go to Seat List to choose Seat-->
-<!--                                    <a th:href="@{/seats/schedules/{id}(id=${schedule.id})}" class="d-block">-->
-<!--                                        -->
-<!--                                    </a>-->
+                                    <!--                                    Action go to Seat List to choose Seat-->
+                                    <!--                                    <a th:href="@{/seats/schedules/{id}(id=${schedule.id})}" class="d-block">-->
+                                    <!--                                        -->
+                                    <!--                                    </a>-->
 
-                                        <p class="item chonViTri" th:attr="data-id = ${schedule.id}"  th:text="${#dates.format(schedule.startTime, 'HH:mm')}"> </p>
-
+                                    <p class="item chonViTri" th:attr="data-id = ${schedule.id}"
+                                       th:text="${#dates.format(schedule.startTime, 'HH:mm')}"></p>
 
 
                                 </div>
@@ -207,37 +207,37 @@
         </div>
     </div>
     <!-- Danh sách lịch chiếu theo rạp -->
-<!--    <div class="ticket-plan-section padding-bottom padding-top">-->
-<!--        <div class="container">-->
-<!--            <div class="row justify-content-center">-->
-<!--                <div class="col-lg-9 mb-5 mb-lg-0">-->
-<!--                    <ul class="seat-plan-wrapper bg-five">-->
-<!--                        <li th:each="entry : ${schedulesByCinema}">-->
-<!--                            <div class="movie-name">-->
-<!--                                <a href="#0" class="name" th:text="${entry.key.name}"></a>-->
-<!--                                <div th:text="${entry.key.address}"></div>-->
-<!--                            </div>-->
-<!--                            <div class="movie-schedule">-->
-<!--                                <div th:each="schedule : ${entry.value}">-->
-<!--                                    <div class="item" th:text="${#dates.format(schedule.startTime, 'HH:mm')}"></div>-->
-<!--                                </div>-->
+    <!--    <div class="ticket-plan-section padding-bottom padding-top">-->
+    <!--        <div class="container">-->
+    <!--            <div class="row justify-content-center">-->
+    <!--                <div class="col-lg-9 mb-5 mb-lg-0">-->
+    <!--                    <ul class="seat-plan-wrapper bg-five">-->
+    <!--                        <li th:each="entry : ${schedulesByCinema}">-->
+    <!--                            <div class="movie-name">-->
+    <!--                                <a href="#0" class="name" th:text="${entry.key.name}"></a>-->
+    <!--                                <div th:text="${entry.key.address}"></div>-->
+    <!--                            </div>-->
+    <!--                            <div class="movie-schedule">-->
+    <!--                                <div th:each="schedule : ${entry.value}">-->
+    <!--                                    <div class="item" th:text="${#dates.format(schedule.startTime, 'HH:mm')}"></div>-->
+    <!--                                </div>-->
 
-<!--                            </div>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-<!--                <div class="col-lg-3 col-md-6 col-sm-10">-->
-<!--                    <div class="widget-1 widget-banner">-->
-<!--                        <div class="widget-1-body">-->
-<!--                            <a href="#0">-->
-<!--                                <img src="/assets/img/sidebar/banner/banner03.jpg" alt="banner">-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--                            </div>-->
+    <!--                        </li>-->
+    <!--                    </ul>-->
+    <!--                </div>-->
+    <!--                <div class="col-lg-3 col-md-6 col-sm-10">-->
+    <!--                    <div class="widget-1 widget-banner">-->
+    <!--                        <div class="widget-1-body">-->
+    <!--                            <a href="#0">-->
+    <!--                                <img src="/assets/img/sidebar/banner/banner03.jpg" alt="banner">-->
+    <!--                            </a>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
 </section>
 </body>
 </html>

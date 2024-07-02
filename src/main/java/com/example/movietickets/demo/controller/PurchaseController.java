@@ -7,6 +7,7 @@ import com.example.movietickets.demo.repository.RoomRepository;
 import com.example.movietickets.demo.repository.SeatRepository;
 import com.example.movietickets.demo.repository.UserRepository;
 import com.example.movietickets.demo.service.*;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -80,8 +82,13 @@ public class PurchaseController {
             String formattedTotalPrice = currencyFormat.format(purchase.getTotalPrice());
             model.addAttribute("totalPrice", formattedTotalPrice);
 
+            List<ComboFood> comboFoods = comboFoodService.getAllComboFood();
             Room room = roomRepository.findByName(purchase.getRoomName());
             List<Seat> seats = seatRepository.findByRoom(room);
+            //add thêm trn header
+            List<Category> categories = categoryService.getAllCategories();
+            model.addAttribute("categories", categories);
+            model.addAttribute("comboFoods", comboFoods);
             //lấy ra các seat booked
             model.addAttribute("purchase", purchase);
             model.addAttribute("seats", seats);
@@ -127,9 +134,7 @@ public class PurchaseController {
     @GetMapping("/history")
     public String showPurchaseHistory(Model model) {
         List<Booking> bookings = bookingService.getBookingsByCurrentUser(); // phương thức này để lấy các booking của người dùng hiện tại
-
         List<Category> categories = categoryService.getAllCategories();
-
         model.addAttribute("categories", categories);
         model.addAttribute("bookings", bookings);
         return "/purchase/history";
@@ -138,6 +143,7 @@ public class PurchaseController {
     @PostMapping("/checkout")
     public String checkout(
             @RequestParam("payment") String payment,
+            @RequestParam String comboId, //nhận String từ form purrchase
             @RequestParam Long scheduleId,
             RedirectAttributes redirectAttributes
     ) throws UnsupportedEncodingException {
@@ -148,11 +154,6 @@ public class PurchaseController {
                 seatSymbols.add(seat.getSymbol());
             }
 
-            // Kiểm tra phương thức thanh toán
-            if ("vnpay".equalsIgnoreCase(payment)) {
-                //return "redirect:/api/payment/create_payment?amount=" + purchase.getTotalPrice();
-                return "redirect:/api/payment/create_payment?scheduleId=" + scheduleId + "&amount=" + purchase.getTotalPrice();
-            }
 
             Room room = roomRepository.findByName(purchase.getRoomName());
             List<Seat> seats = bookingService.getSeatsFromSymbolsAndRoom(seatSymbols, room);
@@ -160,23 +161,43 @@ public class PurchaseController {
             // Lấy schedule từ scheduleId
             Schedule schedule = scheduleService.getScheduleById(scheduleId).orElseThrow(() -> new IllegalArgumentException("Invalid schedule Id"));
 
+            // Tách comboId và comboPrice từ giá trị của request parameter
+            Long comboFoodId = null;
+            Long comboPrice = 0L;
+            if (!comboId.equals("0-0")) { // Kiểm tra xem có chọn combo hay không
+                String[] comboDetails = comboId.split("-");
+                comboFoodId = Long.parseLong(comboDetails[0]);
+                comboPrice = Long.parseLong(comboDetails[1]);
+            }
+
+
             Booking booking = new Booking();
             booking.setFilmName(purchase.getFilmTitle());
             booking.setPoster(purchase.getPoster());
             booking.setCinemaName(purchase.getCinemaName());
             booking.setCinemaAddress(purchase.getCinemaAddress());
             booking.setStartTime(parseDate(purchase.getStartTime()));
-            booking.setPrice(purchase.getTotalPrice());
             booking.setSeatName(purchase.getSeats());
             booking.setRoomName(purchase.getRoomName());
             booking.setPayment(payment);
             booking.setStatus(true); // Hoặc giá trị khác tùy vào logic của bạn
             booking.setCreateAt(new Date());
+            booking.setPrice(purchase.getTotalPrice()+ comboPrice); //cộng thêm giá từ food
+
+            if (comboFoodId != null) {
+                ComboFood comboFood = comboFoodService.getComboFoodById(comboFoodId).orElseThrow(() -> new EntityNotFoundException("Combo not found"));
+                booking.setComboFood(comboFood);
+            }
+
+            // Kiểm tra phương thức thanh toán
+            if ("vnpay".equalsIgnoreCase(payment)) {
+                //return "redirect:/api/payment/create_payment?amount=" + purchase.getTotalPrice();
+                return "redirect:/api/payment/create_payment?scheduleId=" + scheduleId + "&amount="  + booking.getPrice() + "&comboId="  + comboId ;
+            }
 
             // Lấy thông tin người dùng hiện tại
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
-            User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            User user = getUserFromAuthentication(authentication);
             booking.setUser(user);
 
 
@@ -189,6 +210,20 @@ public class PurchaseController {
         }
         return "redirect:/purchase/history"; // Chuyển hướng đến trang lịch sử mua vé
     }
+
+    private User getUserFromAuthentication(Authentication authentication) {
+        if (authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.User) {
+            // Trường hợp đăng nhập thông thường
+            String username = ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername();
+            return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        } else if (authentication.getPrincipal() instanceof DefaultOAuth2User) {
+            // Trường hợp đăng nhập bằng OAuth2 (Facebook, Google)
+            String email = ((DefaultOAuth2User) authentication.getPrincipal()).getAttribute("email");
+            return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        }
+        throw new UsernameNotFoundException("User not found");
+    }
+
 
     private Date parseDate(String dateStr) {
         try {

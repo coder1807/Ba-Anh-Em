@@ -17,7 +17,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 import java.util.Optional;
+
 @Service
 @Slf4j
 @Transactional
@@ -27,8 +30,23 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private IRoleRepository roleRepository;
+    @Autowired
+    private UserRepository user_Repository;
 
-    public void save(User user) {
+    public List<User> getAllUsers() {
+        return userRepository.findAllByOrderByIdDesc();
+    }
+
+    public Optional<User> getUserById(Long id) {
+        return user_Repository.findById((id));
+    }
+
+    public Long getCountUser() {
+        return user_Repository.getCountUser();
+    }
+
+    // Lưu người dùng mới vào cơ sở dữ liệu sau khi mã hóa mật khẩu.
+    public void save(@NotNull User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
@@ -37,12 +55,12 @@ public class UserService implements UserDetailsService {
         userRepository.findByUsername(username).ifPresentOrElse(
                 user -> {
                     user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
+                    user.setProvider("LOCAL");
                     userRepository.save(user);
                 },
                 () -> {
                     throw new UsernameNotFoundException("User not found");
-                }
-        );
+                });
     }
 
     @Override
@@ -52,10 +70,10 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                user.getAuthorities()
-        );
+                user.getAuthorities());
     }
 
+    // Tìm kiếm người dùng dựa trên tên đăng nhập.
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
@@ -81,8 +99,10 @@ public class UserService implements UserDetailsService {
             return null;
         }
     }
+
     public void saveOauthUser(String email, String username, String provider) {
-        if (username == null || userRepository.findByUsername(username).isPresent()) return;
+        if (username == null || userRepository.findByUsername(username).isPresent())
+            return;
 
         var user = new User();
         user.setUsername(username);
@@ -93,15 +113,15 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-//    public void saveOauthUser(String email, String username) {
-//        if (userRepository.findByUsername(username).isPresent()) return;
-//        var user = new User();
-//        user.setUsername(username);
-//        user.setEmail(email);
-//        user.setPassword(new BCryptPasswordEncoder().encode(username));
-//        user.setProvider(Provider.GOOGLE.value);
-//        user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
-//        userRepository.save(user);
-//    }
+    // public void saveOauthUser(String email, String username) {
+    // if (userRepository.findByUsername(username).isPresent()) return;
+    // var user = new User();
+    // user.setUsername(username);
+    // user.setEmail(email);
+    // user.setPassword(new BCryptPasswordEncoder().encode(username));
+    // user.setProvider(Provider.GOOGLE.value);
+    // user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
+    // userRepository.save(user);
+    // }
 
 }

@@ -1,53 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}"
+      layout:decorate="~{admin/layout}"
 >
 <head>
     <meta charset="UTF-8">
-    <title>Sửa quốc gia</title>
+    <title></title>
 </head>
 <body>
-<section layout:fragment="content" class="container mt-5">
-    <!-- BREADCRUMB -->
-    <!-- Header Start -->
-    <div class="container-fluid bg-breadcrumb">
-        <div class="container text-center py-5" style="max-width: 900px;">
-            <h3 class="display-3 mb-4 fw-bolder">
-                Sửa danh mục
-            </h3>
-            <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="#">Trang chủ >></a></li>
-                <li class="breadcrumb-item active ">Sửa danh mục </li>
-            </ol>
+<section layout:fragment="content">
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- main title -->
+                <div class="col-12">
+                    <div class="main__title">
+                        <h2 th:text="${title}"></h2>
+                    </div>
+                </div>
+                <!-- end main title -->
+
+                <!-- form -->
+                <div class="col-12">
+                    <form th:action="@{/admin/blogs/edit/{id}(id=${blog.id})}" th:object="${blog}"
+                          method="POST" class="form"
+                          enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-12 col-md-5 form__cover">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-12">
+                                        <div class="form__img">
+                                            <label for="form__img-upload">Upload cover (270 x 400)</label>
+                                            <input id="form__img-upload" th:field="*{poster}" name="form__img-upload"
+                                                   type="file" accept=".png, .jpg, .jpeg">
+                                            <img id="form__img" th:src="*{poster}" alt=" ">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-7 form__content">
+                                <div class="row">
+                                    <div class="col-12  col-lg-6">
+                                        <input type="text" class="form__input" placeholder="Nhập tiêu đề blog"
+                                               title="title"
+                                               th:field="*{title}" name="title" required/>
+                                    </div>
+                                    <div class="col-12  col-lg-6">
+                                        <input type="datetime-local" class="form__input" placeholder="Ngày tạo"
+                                               title="Ngày tạo"
+                                               th:value="${blog.getFormattedDate()}"
+                                               name="date" required/>
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea id="text" name="content"
+                                                  th:field="*{content}"
+                                                  class="form__textarea" placeholder="Nhập nội dung"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button type="submit" class="form__btn">thực hiện</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <!-- end form -->
+            </div>
         </div>
-    </div>
-    <!-- Header End -->
-    <!-- /BREADCRUMB -->
-    <!--    <h1 class="mb-4">Update Category</h1>-->
-    <form th:action="@{/admin/blog/edit/{id}(id=${blog.id})}" enctype="multipart/form-data" th:object="${blog}" method="post" class="needs-validation" >
-
-        <div class="mb-3">
-            <label for="name" class="form-label">Tiêu đề:</label>
-            <input type="text" th:field="*{title}" class="form-control" id="name" required>
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Valid name is required.</div>
-        </div>
-
-        <div class="mb-3">
-            <label for="content" class="form-label">Nội dung</label>
-            <input type="text" th:field="*{content}" class="form-control" id="content" required>
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Lỗi</div>
-        </div>
-
-
-        <div class="mb-3">
-            <label for="poster" class="form-label">Poster</label>
-            <input type="file" id="poster" name = "poster" th:field="*{poster}" class="form-control"/>
-            <!--<div class="text-danger" th:if="${#fields.hasErrors('poster')}" th:errors="*{poster}"></div>-->
-        </div>
-
-        <button type="submit" class="custom-button">Update</button>
-        <a th:href="@{/admin/blog}" class="btn btn-outline-danger">Cancel</a>
-    </form>
+    </main>
 </section>
 </body>
 </html>

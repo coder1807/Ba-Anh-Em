@@ -1,9 +1,6 @@
 package com.example.movietickets.demo.controller;
 
-import com.example.movietickets.demo.model.BookingDetail;
-import com.example.movietickets.demo.model.Film;
-import com.example.movietickets.demo.model.Schedule;
-import com.example.movietickets.demo.model.Seat;
+import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.repository.BookingDetailRepository;
 import com.example.movietickets.demo.repository.BookingRepository;
 import com.example.movietickets.demo.service.*;
@@ -42,6 +39,9 @@ public class SeatController {
 
     private BookingDetailRepository bookingDetailRepository;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping
     public String getSeatsByRoomId(@RequestParam(value = "roomId", required = false) Long roomId, Model model) {
         List<Seat> seats;
@@ -56,9 +56,7 @@ public class SeatController {
         return "/seat/seat-list";
     }
 
-
-
-     @GetMapping("/schedules/{scheduleId}")
+    @GetMapping("/schedules/{scheduleId}")
     public String getSeatsBySchedule(@PathVariable Long scheduleId, Model model) {
         Optional<Schedule> optionalSchedule = scheduleService.getScheduleById(scheduleId);
         if (optionalSchedule.isPresent()) {
@@ -77,7 +75,8 @@ public class SeatController {
                 seat.setStatus("empty"); // Đặt mặc định là 'available'
                 for (BookingDetail bookingDetail : bookingDetails) {
                     if (bookingDetail.getSeat().getId().equals(seat.getId())) {
-                        seat.setStatus("booked"); // Đánh dấu là 'booked' nếu có trong BookingDetail của suất chiếu hiện tại
+                        seat.setStatus("booked"); // Đánh dấu là 'booked' nếu có trong BookingDetail của suất chiếu hiện
+                                                  // tại
                         break;
                     }
                 }
@@ -93,6 +92,9 @@ public class SeatController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             String currentTime = LocalTime.now().format(formatter);
 
+            List<Category> categories = categoryService.getAllCategories();
+
+            model.addAttribute("categories", categories);
             model.addAttribute("currentTime", currentTime);
             model.addAttribute("seats", seats);
             model.addAttribute("film", film);
@@ -110,11 +112,11 @@ public class SeatController {
         }
     }
 
-
     // Lấy danh sách ghế đã được đặt dựa trên scheduleId
-//            List<BookingDetail> bookingDetails = bookingDetailService.getBookingDetailsByScheduleId(scheduleId);
-//            Set<Long> bookedSeatIds = bookingDetails.stream()
-//                    .map(BookingDetail::getSeat)
-//                    .map(Seat::getId)
-//                    .collect(Collectors.toSet());
+    // List<BookingDetail> bookingDetails =
+    // bookingDetailService.getBookingDetailsByScheduleId(scheduleId);
+    // Set<Long> bookedSeatIds = bookingDetails.stream()
+    // .map(BookingDetail::getSeat)
+    // .map(Seat::getId)
+    // .collect(Collectors.toSet());
 }

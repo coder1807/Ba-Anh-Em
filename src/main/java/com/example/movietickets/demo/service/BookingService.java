@@ -3,9 +3,13 @@ package com.example.movietickets.demo.service;
 import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.repository.*;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @SessionScope
 public class BookingService {
@@ -37,6 +43,22 @@ public class BookingService {
         this.userRepository = userRepository;
     }
 
+    public List<Booking> getAll() {
+        return bookingRepository.findAll();
+    }
+
+    public Optional<Booking> getBookingId(Long id) {
+        return bookingRepository.findById(id);
+    }
+
+    public Long getCountBooking() {
+        return bookingRepository.getCountBooking();
+    }
+
+    public Long getTotalPrice() {
+        return bookingRepository.getTotalPrice();
+    }
+
     public List<Seat> getSeatsFromSymbolsAndRoom(List<String> seatSymbols, Room room) {
         return seatRepository.findBySymbolInAndRoom(seatSymbols, room);
     }
@@ -45,12 +67,41 @@ public class BookingService {
         // Thay đổi phương thức để lấy các booking của người dùng hiện tại
         return bookingRepository.findAll();
     }
+
     public List<Booking> getBookingsByCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy User"));
-        return bookingRepository.findByUser(user);
+
+        if (authentication instanceof OAuth2AuthenticationToken) { //log in voi Oauth2
+            OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
+            String email = null;
+
+            Object principal = oauthToken.getPrincipal();
+            if (principal instanceof DefaultOidcUser) {
+                email = ((DefaultOidcUser) principal).getEmail();
+            } else if (principal instanceof DefaultOAuth2User) {
+                email = ((DefaultOAuth2User) principal).getAttribute("email");
+            }
+
+            if (email != null) {
+                User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy User"));
+                return bookingRepository.findByUser(user);
+            }
+        } else if (authentication instanceof UsernamePasswordAuthenticationToken) { //login binh thuong
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy User"));
+            return bookingRepository.findByUser(user);
+        }
+
+        throw new UsernameNotFoundException("Không tìm thấy User");
     }
+
+
+//    public List<Booking> getBookingsByCurrentUser() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username = authentication.getName();
+//        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy User"));
+//        return bookingRepository.findByUser(user);
+//    }
 
     public Booking saveBookingWithCombo(Long userId, Long comboFoodId, Booking booking) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -76,7 +127,7 @@ public class BookingService {
             bookingDetailRepository.save(bookingDetail);
         }
         //cập nhật trạng thái ghé đã đặt
-        for(Seat seat: seats){
+        for (Seat seat : seats) {
             seat.setStatus("booked");
             seatRepository.save(seat);
         }

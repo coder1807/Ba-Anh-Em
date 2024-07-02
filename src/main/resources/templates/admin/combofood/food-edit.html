@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<section layout:fragment="content">
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- main title -->
+                <div class="col-12">
+                    <div class="main__title">
+                        <h2 th:text="${title}"></h2>
+                    </div>
+                </div>
+                <!-- end main title -->
+
+                <!-- form -->
+                <div class="col-12">
+                    <form th:action="@{/admin/comboFoods/edit/{id}(id=${comboFood.id})}" th:object="${comboFood}"
+                          method="POST" class="form"
+                          enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-12 col-md-5 form__cover">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-12">
+                                        <div class="form__img">
+                                            <label for="form__img-upload">Upload cover (270 x 400)</label>
+                                            <input id="form__img-upload" th:field="*{poster}" name="form__img-upload"
+                                                   type="file" accept=".png, .jpg, .jpeg">
+                                            <img id="form__img" th:src="*{poster}" alt=" ">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-7 form__content">
+                                <div class="row">
+                                    <div class="col-12  col-lg-6">
+                                        <input type="text" class="form__input" placeholder="Nhập tên thức ăn nhanh"
+                                               title="comboName"
+                                               th:field="*{comboName}" name="comboName" required/>
+                                    </div>
+                                    <div class="col-12  col-lg-6">
+                                        <input type="text" class="form__input" placeholder="Giá tiền" title="Giá tiền"
+                                               th:field="*{price}" name="price" required/>
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea id="text" name="description"
+                                                  th:field="*{description}"
+                                                  class="form__textarea" placeholder="Mô tả"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button type="submit" class="form__btn">thực hiện</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <!-- end form -->
+            </div>
+        </div>
+    </main>
+</section>
+</body>
+</html>

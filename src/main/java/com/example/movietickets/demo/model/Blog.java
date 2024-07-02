@@ -14,7 +14,7 @@ import java.util.List;
 public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "BLOG_ID")
+    @Column(name = "BLOG_ID")
     private Long id;
 
     @Column(name = "BLOG_TITLE", nullable = false)
@@ -33,7 +33,7 @@ public class Blog {
     private List<Comment> comments;
 
     public String getFormattedDate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         return date.format(formatter);
     }
 }

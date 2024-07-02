@@ -35,12 +35,12 @@
                 <h2 class="title">blog single</h2>
                 <ul class="breadcrumb">
                     <li>
-                        <a th:href="@{/}"> Home </a>
+                        <a th:href="@{/}"> Trang chủ </a>
                     </li>
                     <li>
-                        <a th:href="@{/blog}"> blog </a>
+                        <a th:href="@{/blog}"> Bài viết </a>
                     </li>
-                    <li>blog single</li>
+                    <li>Chi tiết bài viết</li>
                 </ul>
             </div>
         </div>
@@ -188,7 +188,7 @@
                                     <div sec:authorize="hasAuthority('admin')" >
                                         <form th:action="@{/blog/blog-details/{id}/delete/{commentId}(id=${blog.id}, commentId=${comment.id})}" method="post" style="display: inline;">
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">
-                                                <i class="fa-solid fa-trash"></i>
+                                                <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
                                     </div>
@@ -198,7 +198,7 @@
 
                             <div sec:authorize="isAuthenticated()" >
                                 <div class="leave-comment">
-                                    <h5 class="title">Leave a comment</h5>
+                                    <h5 class="title">Để lại comment</h5>
                                     <form class="blog-form" method="post" th:action="@{/blog/blog-details/{id}/comment(id=${blog.id})}" th:object="${comment}" enctype="multipart/form-data">
                                         <input type="hidden" th:value="${blog.id}" name="blogId" /> <!-- Trường ẩn để lưu id của blog -->
                                         <!--<div class="form-group">
@@ -225,16 +225,16 @@
                 <div class="col-lg-4 col-sm-10 col-md-8">
                     <aside>
                         <div class="widget widget-search">
-                            <h5 class="title">search</h5>
+                            <h5 class="title">Tìm kiếm</h5>
                             <form class="search-form" th:action="@{/blog/search}" method="get">
                                 <input type="text" name="keyword" th:value="${keyword}" placeholder="Enter your Search Blog" required="">
                                 <button type="submit">
-                                    <i class="flaticon-loupe"></i>Search
+                                    <i class="flaticon-loupe"></i>Tìm
                                 </button>
                             </form>
                         </div>
                         <div class="widget widget-post">
-                            <h5 class="title">latest post</h5>
+                            <h5 class="title">Post Mới nhất </h5>
                             <div class="slider-nav">
                                 <span class="flaticon-angle-pointing-to-left widget-prev"></span>
                                 <span class="flaticon-right-arrow-angle widget-next active"></span>

@@ -1,74 +1,116 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+      layout:decorate="~{admin/layout}">
 <head>
-    <title  th:text="${title} ?: 'Kết Quả'">Title</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-<section layout:fragment="content" class="mt-5">
-    <!-- BREADCRUMB -->
-    <!-- Header Start -->
-    <div class="container-fluid bg-breadcrumb">
-        <div class="container text-center py-5" style="max-width: 900px;">
-            <h3 class="display-3 mb-4 fw-bolder">
-                Danh sách ghế
-            </h3>
-            <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="/home/index">Trang chủ</a></li>
-                <li class="breadcrumb-item active ">Chi tiet phong</li>
-            </ol>
+<section layout:fragment="content">
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- main title -->
+                <div class="col-12">
+                    <div class="main__title">
+                        <h2 th:text="${title}"></h2>
+                        <a th:href="@{/admin/seats/add}" class="main__title-link">Thêm mới</a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-12 mb-5">
+                    <div class="main__title">
+                        <form method="get" action="/admin/seats">
+                            <label class="profile__label" for="room">Chọn Phòng: </label>
+                            <select class="js-example-basic-single" id="room" name="roomId"
+                                    onchange="this.form.submit()">
+                                <option value="">Tất cả các phòng</option>
+                                <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.name}"
+                                        th:selected="${room.id == selectedRoomId}"></option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+                <!-- end main title -->
+                <!-- users -->
+                <div class="col-12">
+                    <div class="main__table-wrap">
+                        <table class="main__table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>SỐ GHẾ</th>
+                                <th>LOẠI GHẾ</th>
+                                <th>GIÁ GHẾ</th>
+                                <th>ẢNH GHẾ</th>
+                                <th>TRẠNG THÁI</th>
+                                <th>PHÒNG</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${seats}">
+                                <td>
+                                    <div class="main__table-text" th:text="${item.id}"></div>
+                                </td>
+                                <td>
+                                    <div class="main__table-text" th:text="${item.symbol}"></div>
+                                </td>
+                                <td>
+                                    <div class="main__table-text" th:text="${item.seattype.type}"></div>
+                                </td>
+                                <td>
+                                    <div class="main__table-text" th:text="${item.seattype.price}"></div>
+                                </td>
+                                <td>
+                                    <img th:src="${item.image}" alt="Film Poster" style="max-width: 100px;"/>
+                                </td>
+                                <td>
+                                    <div class="main__table-text" th:text="${item.status}"></div>
+                                </td>
+                                <td>
+                                    <div class="main__table-text" th:text="${item.room.name}"></div>
+                                </td>
+                                <td>
+                                    <div class="main__table-btns">
+                                        <a th:href="@{/admin/seats/edit/{id}(id=${item.id})}"
+                                           class="main__table-btn main__table-btn--edit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path d="M5,18H9.24a1,1,0,0,0,.71-.29l6.92-6.93h0L19.71,8a1,1,0,0,0,0-1.42L15.47,2.29a1,1,0,0,0-1.42,0L11.23,5.12h0L4.29,12.05a1,1,0,0,0-.29.71V17A1,1,0,0,0,5,18ZM14.76,4.41l2.83,2.83L16.17,8.66,13.34,5.83ZM6,13.17l5.93-5.93,2.83,2.83L8.83,16H6ZM21,20H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/>
+                                            </svg>
+                                        </a>
+                                        <a href="#modal-delete" th:onclick="'setDeleteItem( ' + ${item.id} + ')'"
+                                           class="main__table-btn main__table-btn--delete open-modal">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path d="M20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- end users -->
+            </div>
+        </div>
+    </main>
+    <!-- end main content -->
+
+    <!-- modal delete -->
+    <div id="modal-delete" class="zoom-anim-dialog mfp-hide modal">
+        <h6 class="modal__title">Thông báo</h6>
+        <p class="modal__text">Bạn có muốn xoá dữ liệu này không? Không thể xoá dữ liệu đã có liên kết.</p>
+        <div class="modal__btns">
+            <button class="modal__btn modal__btn--apply" type="button"
+                    th:onclick="'deleteItem(\'/admin/seats/delete/\' + ' + item_id + ', \'/admin/seats\')'">
+                Xoá
+            </button>
+            <button class="modal__btn modal__btn--dismiss" type="button">Đóng</button>
         </div>
     </div>
-    <!-- BREADCRUMB -->
-
-
-<div class="container">
-    <div class="mb-5">
-        <form method="get" action="/admin/seats">
-            <label for="roomId">Select Room:</label>
-            <select class="form-control" id="roomId" name="roomId" onchange="this.form.submit()">
-                <option value="">All Rooms</option>
-                <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.name}" th:selected="${room.id == selectedRoomId}"></option>
-            </select>
-        </form>
-    </div>
-    <a th:href="@{/admin/seats/add}" class="btn btn-warning my-3">Add New Seat</a>
-    <table th:object="${seat}" class="table table-bordered table-hover">
-        <thead>
-        <tr class="text-white">
-            <th>ID</th>
-            <th>Seat Number</th>
-            <th>Seat Type</th>
-            <th>Seat Price</th>
-            <th>Seat Image</th>
-            <th>Status</th>
-            <th>Room</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="seat : ${seats}" class="text-white">
-            <td th:text="${seat.id}"></td>
-            <td th:text="${seat.symbol}"></td>
-            <td th:text="${seat.seattype.type}"></td>
-            <td th:text="${seat.seattype.price}"></td>
-            <td>
-                <img th:src="${seat.image}" alt="" style="max-width:100px">
-            </td>
-            <td th:text="${seat.status}"></td>
-            <td th:text="${seat.room.name}"></td>
-            <td>
-                <a th:href="@{/admin/seats/edit/{id}(id=${seat.id})}" class="btn btn-warning">Edit</a>
-                <a th:href="@{/admin/seats/delete/{id}(id=${seat.id})}" onclick="return confirm('Bạn có chắc không ?')" class="btn btn-danger">Delete</a>
-
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-
 </section>
 </body>
 </html>

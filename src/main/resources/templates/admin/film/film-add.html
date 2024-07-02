@@ -1,116 +1,119 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}"
->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Trang add phim</title>
+    <title>Title</title>
 </head>
 <body>
-<section layout:fragment="content" class="container mt-5">
-    <!-- BREADCRUMB -->
-    <!-- Header Start -->
-    <div class="container-fluid bg-breadcrumb">
-        <div class="container text-center py-5" style="max-width: 900px;">
-            <h3 class=" display-3 mb-4 fw-bolder">
-                Trang danh mục
-            </h3>
-            <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="/home/index">Trang chủ </a></li>
-                <li class="breadcrumb-item active">Thêm phim</li>
-            </ol>
-        </div>
-    </div>
-    <!-- Header End -->
-    <!-- /BREADCRUMB -->
-<!--    form thêm phim tương ứng với model FIlm-->
-    <form th:action="@{/admin/films/add}" th:object="${film}" method="post" enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="name" class="form-label">Tên phim:</label>
-            <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Film Name" required/>
-            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-        </div>
+<section layout:fragment="content">
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- main title -->
+                <div class="col-12">
+                    <div class="main__title">
+                        <h2 th:text="${title}"></h2>
+                    </div>
+                </div>
+                <!-- end main title -->
 
-        <div class="mb-3">
-            <label for="trailer" class="form-label">Trailer:</label>
-            <input type="text" id="trailer" th:field="*{trailer}" class="form-control" placeholder="Trailer"/>
-            <div class="text-danger" th:if="${#fields.hasErrors('trailer')}" th:errors="*{trailer}"></div>
+                <!-- form -->
+                <div class="col-12">
+                    <form th:action="@{/admin/films/add}" th:object="${film}" enctype="multipart/form-data"
+                          method="POST" class="form">
+                        <div class="row">
+                            <div class="col-12 col-md-5 form__cover">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-12">
+                                        <div class="form__img">
+                                            <label for="form__img-upload">Upload cover (270 x 400)</label>
+                                            <input id="form__img-upload" th:field="*{poster}" name="form__img-upload"
+                                                   type="file" accept=".png, .jpg, .jpeg">
+                                            <img id="form__img" th:src="*{poster}" alt=" ">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-7 form__content">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="text" class="form__input" placeholder="Tên phim" th:field="*{name}"
+                                               name="name" required/>
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea id="text" name="description" th:field="*{description}"
+                                                  class="form__textarea" placeholder="Mô tả" required></textarea>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-3">
+                                        <input type="datetime-local" class="form__input" placeholder="Ngày phát hành"
+                                               title="Ngày phát hành" th:field="*{openingday}" name="opening_day"
+                                               required/>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-3">
+                                        <input type="number" class="form__input" placeholder="Thời lượng (phút)"
+                                               title="Thời lượng (phút)" th:field="*{duration}" name="duration"
+                                               required/>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-3">
+                                        <select class="js-example-basic-single" id="country" th:field="*{country}"
+                                                name="country_id" required>
+                                            <option th:each="item: ${countries}" th:value="${item.id}"
+                                                    th:text="${item.name}"></option>
+                                        </select>
+                                        <div class="text-danger" th:if="${#fields.hasErrors('country')}"
+                                             th:errors="*{country}"></div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-3">
+                                        <input class="form__input" placeholder="Giới hạn độ tuổi" type="text"
+                                               th:field="*{limit_age}" required/>
+                                    </div>
+                                    <div class="col-12 col-lg-6">
+                                        <select class="js-example-basic-multiple form-control" id="category"
+                                                multiple="multiple"
+                                                th:field="*{categoryIds}" required>
+                                            <option th:each="category : ${categories}"
+                                                    th:value="${category.id}"
+                                                    th:text="${category.name}"
+                                                    th:selected="${#lists.contains(film.categoryIds, category.id)}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12  col-lg-6">
+                                        <input type="text" class="form__input" placeholder="Trailer" title="Trailer"
+                                               th:field="*{trailer}" name="trailer" required/>
+                                    </div>
+                                    <div class="col-12  col-lg-6">
+                                        <input type="text" class="form__input" placeholder="Đạo diễn" title="Đạo diễn"
+                                               th:field="*{director}" name="director" required/>
+                                    </div>
+                                    <div class="col-12  col-lg-6">
+                                        <input type="text" class="form__input" placeholder="Diễn viên" title="Diễn viên"
+                                               th:field="*{actor}" name="actor" required/>
+                                    </div>
+                                    <div class="col-12  col-lg-6">
+                                        <input type="text" class="form__input" placeholder="Phụ đề" title="Phụ đề"
+                                               th:field="*{subtitle}" name="subtitle" required/>
+                                    </div>
+                                    <div class="col-12  col-lg-6">
+                                        <input type="text" class="form__input" placeholder="Chất luợng phim"
+                                               title="Chất luợng phim"
+                                               th:field="*{quanlity}" name="quanlity" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="form__btn">Thực hiện</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- end form -->
+            </div>
         </div>
-
-        <div class="mb-3">
-            <label for="description" class="form-label">Mô tả:</label>
-            <textarea id="description" th:field="*{description}" class="form-control" placeholder="Description"></textarea>
-            <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
-        </div>
-
-        <div class="mb-3">
-            <label for="poster" class="form-label">Poster:</label>
-            <input type="file" id="poster" name = "poster" th:field="*{poster}" class="form-control"/>
-<!--            <div class="text-danger" th:if="${#fields.hasErrors('poster')}" th:errors="*{poster}"></div>-->
-        </div>
-
-        <div class="mb-3">
-            <label for="director" class="form-label">Đạo diễn:</label>
-            <input type="text" id="director" th:field="*{director}" class="form-control" placeholder="Director"/>
-            <div class="text-danger" th:if="${#fields.hasErrors('director')}" th:errors="*{director}"></div>
-        </div>
-
-        <div class="mb-3">
-            <label for="actor" class="form-label">Diễn viên:</label>
-            <input type="text" id="actor" th:field="*{actor}" class="form-control" placeholder="Actor"/>
-            <div class="text-danger" th:if="${#fields.hasErrors('actor')}" th:errors="*{actor}"></div>
-        </div>
-
-        <div class="mb-3">
-            <label for="openingday" class="form-label">Ngày khởi chiếu:</label>
-            <input type="datetime-local" id="openingday" th:field="*{openingday}" class="form-control"/>
-            <div class="text-danger" th:if="${#fields.hasErrors('openingday')}" th:errors="*{openingday}"></div>
-        </div>
-
-        <div class="mb-3">
-            <label for="subtitle" class="form-label">Phụ đề:</label>
-            <input type="text" id="subtitle" th:field="*{subtitle}" class="form-control" placeholder="Subtitle"/>
-            <div class="text-danger" th:if="${#fields.hasErrors('subtitle')}" th:errors="*{subtitle}"></div>
-        </div>
-
-        <div class="mb-3">
-            <label for="duration" class="form-label">Thời lượng (phút):</label>
-            <input type="number" id="duration" th:field="*{duration}" class="form-control" placeholder="Duration" required/>
-            <div class="text-danger" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></div>
-        </div>
-
-        <div class="mb-3">
-            <label for="quanlity" class="form-label">Chất lượng:</label>
-            <input type="text" id="quanlity" th:field="*{quanlity}" class="form-control" placeholder="chất lượng hình ảnh"/>
-            <div class="text-danger" th:if="${#fields.hasErrors('quanlity')}" th:errors="*{quanlity}"></div>
-        </div>
-        <div class="mb-3">
-            <label for="limitAge" class="form-label">Giới hạn độ tuổi:</label>
-            <input type="text" id="limitAge" th:field="*{limit_age}" class="form-control" placeholder="P: everone; C + agelimit"/>
-            <div class="text-danger" th:if="${#fields.hasErrors('limit_age')}" th:errors="*{limit_age}"></div>
-        </div>
-
-
-        <div class="mb-3">
-            <label for="country" class="form-label">Quốc gia:</label>
-            <select id="country" th:field="*{country}" class="form-control">
-                <option value="">Chọn quốc gia</option>
-                <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}"></option>
-            </select>
-            <div class="text-danger" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></div>
-        </div>
-
-        <div class="mb-3">
-            <label for="category" class="form-label">Thể loại:</label>
-            <select th:field="*{category}" class="form-control" id="category" placeholder="Danh mục">
-                <option value="">Chọn thể loại</option>
-                <option th:each="category : ${categories}"
-                        th:value="${category.id}" th:text="${category.name}"></option>
-            </select>
-        </div>
-
-        <button type="submit" class="custom-button">Xác nhận</button>
-    </form>
+    </main>
 </section>
 </body>
 </html>

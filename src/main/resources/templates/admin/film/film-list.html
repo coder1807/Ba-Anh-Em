@@ -1,80 +1,114 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}"
->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
 <head>
     <meta charset="UTF-8">
-    <title  th:text="${title} ?: 'Kết Quả'">Title</title>
+    <title>Title</title>
 </head>
 <body>
-<section layout:fragment="content" class="mt-5">
-    <!-- BREADCRUMB -->
-    <!-- Header Start -->
-    <div class="container-fluid bg-breadcrumb">
-        <div class="container text-center py-5" style="max-width: 900px;">
-            <h3 class="display-3 mb-4 fw-bolder">
-                Danh sách phim
-            </h3>
-            <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="/home/index">Trang chủ</a></li>
-                <li class="breadcrumb-item active ">Phim</li>
-            </ol>
+<section layout:fragment="content">
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- main title -->
+                <div class="col-12">
+                    <div class="main__title">
+                        <h2 th:text="${title}"></h2>
+                        <a th:href="@{/admin/films/add}" class="main__title-link">Thêm mới</a>
+                    </div>
+                </div>
+                <!-- end main title -->
+                <!-- users -->
+                <div class="col-12">
+                    <div class="main__table-wrap">
+                        <table class="main__table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>TÊN PHIM</th>
+                                <th>POSTER</th>
+                                <th>NGÀY KHỞI CHIẾU</th>
+                                <th>THỜI LƯỢNG</th>
+                                <th>QUỐC GIA</th>
+                                <th>ĐỘ TUỔI</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${films}">
+                                <td>
+                                    <div class="main__table-text" th:text="${item.id}"></div>
+                                </td>
+                                <td>
+                                    <div class="main__table-text" th:text="${item.name}"></div>
+                                </td>
+                                <td>
+                                    <img th:src="${item.poster}" alt="Film Poster" style="max-width: 100px;"/>
+                                </td>
+                                <td>
+                                    <div class="main__table-text"
+                                         th:text="${item.openingday}"></div>
+                                </td>
+                                <td>
+                                    <div class="main__table-text" th:text="${item.duration + ' phút'}"></div>
+                                </td>
+                                <td>
+                                    <div class="main__table-text" th:text="${item.country.name}"></div>
+                                </td>
+                                <td>
+                                    <div class="main__table-text" th:text="${item.limit_age}"></div>
+                                </td>
+                                <td>
+                                    <div class="main__table-btns">
+                                        <a th:href="@{/admin/schedules/add/{filmId}(filmId=${item.id})}"
+                                           class="main__table-btn main__table-btn--banned"
+                                           title="Thêm lịch chiếu phim này">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <g transform="matrix(0.43 0 0 0.43 12 12)">
+                                                    <path transform=" translate(-25, -25)"
+                                                          d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z"
+                                                          stroke-linecap="round"/>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                        <a th:href="@{/admin/films/edit/{id}(id=${item.id})}"
+                                           class="main__table-btn main__table-btn--edit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path d="M5,18H9.24a1,1,0,0,0,.71-.29l6.92-6.93h0L19.71,8a1,1,0,0,0,0-1.42L15.47,2.29a1,1,0,0,0-1.42,0L11.23,5.12h0L4.29,12.05a1,1,0,0,0-.29.71V17A1,1,0,0,0,5,18ZM14.76,4.41l2.83,2.83L16.17,8.66,13.34,5.83ZM6,13.17l5.93-5.93,2.83,2.83L8.83,16H6ZM21,20H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/>
+                                            </svg>
+                                        </a>
+                                        <a href="#modal-delete" th:onclick="'setDeleteItem( ' + ${item.id} + ')'"
+                                           class="main__table-btn main__table-btn--delete open-modal">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path d="M20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- end users -->
+            </div>
         </div>
-    </div>
-    <!-- Header End -->
-    <!-- /BREADCRUMB -->
-    <!--    <h1>Categories List</h1>-->
-    <div class="container-fluid">
-        <div>
-            <a th:href="@{/admin/films/add}" class="btn btn-primary mb-3">Thêm phim mới</a>
+    </main>
+    <!-- end main content -->
+
+    <!-- modal delete -->
+    <div id="modal-delete" class="zoom-anim-dialog mfp-hide modal">
+        <h6 class="modal__title">Thông báo</h6>
+        <p class="modal__text">Bạn có muốn xoá dữ liệu này không? Không thể xoá dữ liệu đã có liên kết.</p>
+        <div class="modal__btns">
+            <button class="modal__btn modal__btn--apply" type="button"
+                    th:onclick="'deleteItem(\'/admin/films/delete/\' + ' + item_id + ', \'/admin/films\')'">
+                Xoá
+            </button>
+            <button class="modal__btn modal__btn--dismiss" type="button">Đóng</button>
         </div>
-        <table class="table table-bordered table-hover">
-            <thead class="table-primary">
-            <tr>
-                <th>ID</th>
-                <th>Tên Phim</th>
-                <th>Trailer</th>
-                <th>Mô tả</th>
-                <th>Poster</th>
-                <th>Đạo diễn</th>
-                <th>Diễn viên</th>
-                <th>Ngày khởi chiếu</th>
-                <th>Phụ đề</th>
-                <th>Thời lượng</th>
-                <th>Chất lượng</th>
-                <th>Giới hạn độ tuổi</th>
-                <th>Quốc gia</th>
-                <th>Thể loại</th>
-                <th>Tùy chọn</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="film : ${films}">
-                <td class="text-white" th:text="${film.id}"></td>
-                <td  class="text-white" th:text="${film.name}"></td>
-                <td class="text-white" th:text="${film.trailer}"></td>
-                <td  class="text-white" th:text="${film.description}"></td>
-<!--                @{/assets/img/movie/poster/{poster}(poster=${film.poster})}-->
-                <td><img th:src="@{${film.poster}}" alt="Film Poster" style="max-width: 100px;"></td>
-                <td class="text-white" th:text="${film.director}"></td>
-                <td  class="text-white" th:text="${film.actor}"></td>
-<!--                <td class="text-white" th:text="${film.openingday}"></td>-->
-                <td class="text-white" th:text="@{${film.openingday != null ? #dates.format(film.openingday,'dd/MM/yyyy') : 'Chưa có ngày chiếu'}}"></td>
-<!--                <td class="text-white" th:text="${film.openingday != null ? #dates.format(film.openingday, 'yyyy-MM-dd') : 'Chưa có ngày chiếu'}"></td>-->
-<!--                <td class="text-white" th:text="${#dates.format(film.opneningday, 'dd/MM/yyyy HH:mm')}"></td>-->
-                <td class="text-white" th:text="${film.subtitle}"></td>
-                <td class="text-white" th:text="${film.duration + ' phút'}"></td>
-                <td class="text-white" th:text="${film.quanlity}"></td>
-                <td class="text-white" th:text="${film.limit_age}"></td>
-                <td class="text-white" th:text="${film.country.name}"></td>
-                <td class="text-white" th:text="${film.category.name}"></td>
-                <td>
-                    <a th:href="@{/admin/films/edit/{id}(id=${film.id})}" class="btn btn-warning btn-sm">Sửa</a>
-                    <a th:href="@{/admin/films/delete/{id}(id=${film.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </div>
 </section>
 </body>

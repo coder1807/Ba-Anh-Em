@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-
 @Data
 @Entity
 @Table(name = "Room")
@@ -26,19 +25,17 @@ public class Room {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "CINEMA_ID")
-    @ToString.Exclude
+    @JoinColumn(name = "CINEMA_ID", referencedColumnName = "CINEMA_ID")
     private Cinema cinema;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Seat> seats ;
+    private List<Seat> seats;
 
     @Override
     public String toString() {
         return "Room{id=" + id + ", name='" + name + "'}";
     }
-
 }

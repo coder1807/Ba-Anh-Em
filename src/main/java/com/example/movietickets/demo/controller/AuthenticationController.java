@@ -19,7 +19,6 @@ public class AuthenticationController {
 
     private final UserService userService;
 
-
     @GetMapping("/login")
     public String login() {
         return "/authentication/sign-in";
@@ -33,7 +32,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("user") User user, // Validate đối tượng User
-                                   @NotNull BindingResult bindingResult, // Kết quả của quá trình validate
+            @NotNull BindingResult bindingResult, // Kết quả của quá trình validate
             Model model) {
 
         if (userService.existsByUsername(user.getUsername())) {
@@ -47,7 +46,6 @@ public class AuthenticationController {
         if (userService.existsByPhone(user.getPhone())) {
             bindingResult.rejectValue("phone", "error.user", "Số điện thoại đã đăng ký");
         }
-
 
         if (bindingResult.hasErrors()) { // Kiểm tra nếu có lỗi validate
             var errors = bindingResult.getAllErrors()
@@ -67,5 +65,4 @@ public class AuthenticationController {
     public String error() {
         return "/error/404";
     }
-
 }

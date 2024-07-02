@@ -1,6 +1,5 @@
 package com.example.movietickets.demo.service;
 
-
 import com.example.movietickets.demo.model.Category;
 import com.example.movietickets.demo.model.Room;
 import com.example.movietickets.demo.repository.CategoryRepository;
@@ -17,9 +16,8 @@ import java.util.Optional;
 public class RoomService {
     private final RoomRepository roomRepository;
 
-
     public List<Room> getAllRooms() {
-        return roomRepository.findAll();
+        return roomRepository.findAllByOrderByIdDesc();
     }
 
     public Optional<Room> getRoomById(Long id) {
@@ -37,6 +35,7 @@ public class RoomService {
         existingCategory.setName(room.getName());
         roomRepository.save(existingCategory);
     }
+
     public void deleteRoomById(Long id) {
         if (!roomRepository.existsById(id)) {
             throw new IllegalStateException("Room with ID " + id + " does not exist.");

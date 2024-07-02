@@ -1,52 +1,75 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}"
+      layout:decorate="~{admin/layout}"
 >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<section layout:fragment="content" class="container mt-5">
-    <!-- BREADCRUMB -->
-    <!-- Header Start -->
-    <div class="container-fluid bg-breadcrumb">
-        <div class="container text-center py-5" style="max-width: 900px;">
-            <h3 class=" display-3 mb-4 fw-bolder">
-                Trang danh mục
-            </h3>
-            <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="/home/index">Trang chủ >></a></li>
-                <li class="breadcrumb-item active"> Thêm comboFood</li>
-            </ol>
-        </div>
-    </div>
-    <!-- Header End -->
-    <!-- /BREADCRUMB -->
-    <!--    <h1 class="mb-4">Form Category</h1>-->
-    <form th:action="@{/admin/blog/add}" th:object="${blog}" method="post" enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="name" class="form-label">Tiêu đề của blog</label>
-            <input type="text" id="name" th:field="*{title}" class="form-control" placeholder="Tiêu đề"/>
-            <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
-        </div>
+<section layout:fragment="content">
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- main title -->
+                <div class="col-12">
+                    <div class="main__title">
+                        <h2 th:text="${title}"></h2>
+                    </div>
+                </div>
+                <!-- end main title -->
 
-        <div class="mb-3">
-            <label for="price" class="form-label">Nội dung blog</label>
-            <input type="text" id="price" th:field="*{content}" class="form-control" placeholder="Nội dung"/>
-            <div class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+                <!-- form -->
+                <div class="col-12">
+                    <form th:action="@{/admin/blogs/add}" th:object="${blog}" method="POST" class="form"
+                          enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-12 col-md-5 form__cover">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-12">
+                                        <div class="form__img">
+                                            <label for="form__img-upload">Upload cover (270 x 400)</label>
+                                            <input id="form__img-upload" th:field="*{poster}" name="form__img-upload"
+                                                   type="file" accept=".png, .jpg, .jpeg">
+                                            <img id="form__img" th:src="*{poster}" alt=" ">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-7 form__content">
+                                <div class="row">
+                                    <div class="col-12  col-lg-6">
+                                        <input type="text" class="form__input" placeholder="Nhập tiêu đề blog"
+                                               title="title"
+                                               th:field="*{title}" name="title" required/>
+                                    </div>
+                                    <div class="col-12  col-lg-6">
+                                        <input type="datetime-local" class="form__input" placeholder="Ngày tạo"
+                                               title="Ngày tạo"
+                                               th:field="*{date}" name="date" required/>
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea id="text" name="content"
+                                                  th:field="*{content}"
+                                                  class="form__textarea" placeholder="Nhập nội dung"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button type="submit" class="form__btn">thực hiện</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- end form -->
+            </div>
         </div>
-
-
-        <div class="mb-3">
-            <label for="poster" class="form-label">Poster</label>
-            <input type="file" id="poster" name = "poster" th:field="*{poster}" class="form-control"/>
-            <!--<div class="text-danger" th:if="${#fields.hasErrors('poster')}" th:errors="*{poster}"></div>-->
-        </div>
-
-        <button type="submit" class="custom-button">Xác nhận</button>
-    </form>
+    </main>
 </section>
 </body>
 </html>

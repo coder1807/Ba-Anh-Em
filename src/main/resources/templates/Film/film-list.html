@@ -171,16 +171,16 @@
                             <h6 class="subtitle">Đa dạng ngôn ngữ </h6>
                             <div class="check-area">
                                 <div class="form-group">
-                                   <label >English</label>
+                                    <label>English</label>
                                 </div>
                                 <div class="form-group">
-                                   <label >VietNames</label>
+                                    <label>VietNames</label>
                                 </div>
                                 <div class="form-group">
-                                   <label >Korean</label>
+                                    <label>Korean</label>
                                 </div>
                                 <div class="form-group">
-                                    <label >Chinese</label>
+                                    <label>Chinese</label>
                                 </div>
 
                             </div>
@@ -191,12 +191,12 @@
                             <h6 class="subtitle">Trải nghiệm </h6>
                             <div class="check-area">
                                 <div class="form-group">
-                                   <label
-                                        >2d</label>
+                                    <label
+                                    >2d</label>
                                 </div>
                                 <div class="form-group">
-                                   <label
-                                        >3d</label>
+                                    <label
+                                    >3d</label>
                                 </div>
                             </div>
                             <div class="add-check-area">
@@ -209,36 +209,36 @@
                             <h6 class="subtitle"> Đa dạng thể loại </h6>
                             <div class="check-area">
                                 <div class="form-group">
-                                   <label >Kinh
-                                    dị</label>
+                                    <label>Kinh
+                                        dị</label>
                                 </div>
                                 <div class="form-group">
-                                    <label >Khoa
-                                    học viễn tưởng </label>
+                                    <label>Khoa
+                                        học viễn tưởng </label>
                                 </div>
                                 <div class="form-group">
-                                    <label >Chính
-                                    kịch</label>
+                                    <label>Chính
+                                        kịch</label>
                                 </div>
                                 <div class="form-group">
-                                    <label >Tình
-                                    cảm, lãng mạn</label>
+                                    <label>Tình
+                                        cảm, lãng mạn</label>
                                 </div>
                                 <div class="form-group">
-                                    <label >Hành
-                                    động</label>
+                                    <label>Hành
+                                        động</label>
                                 </div>
                                 <div class="form-group">
-                                   <label >Hài
-                                    hước</label>
+                                    <label>Hài
+                                        hước</label>
                                 </div>
                                 <div class="form-group">
-                                    <label >Phiêu
-                                    lưu</label>
+                                    <label>Phiêu
+                                        lưu</label>
                                 </div>
                                 <div class="form-group">
-                                   <label
-                                       >Hoạt hình</label>
+                                    <label
+                                    >Hoạt hình</label>
                                 </div>
                             </div>
                             <div class="add-check-area">
@@ -312,7 +312,7 @@
                                 </div>
                             </div>
                             <div class="tab-item">
-                                <div class="movie-area mb-10"  th:each="film : ${films}">
+                                <div class="movie-area mb-10" th:each="film : ${films}">
                                     <div class="movie-list">
                                         <div class="movie-thumb c-thumb">
                                             <a
@@ -335,15 +335,16 @@
                                                 >
                                             </h5>
                                             <p class="duration" th:text="${film.duration + ' phút | ' + film.quanlity}">
-
                                             </p>
 
-                                            <div class="movie-tags">
-                                                <a href="#0" th:text="${film.category.name}"></a>
+                                            <div class="movie-tags" th:if="${film.categories != null}">
+                                                <a href="#0" th:each="category : ${film.categories}"
+                                                   th:text="${category.name}"></a>
                                             </div>
                                             <div class="release">
                                                 <span>Ngày khởi chiếu : </span>
-                                                <a href="#0" th:text="@{${film.openingday != null ? #dates.format(film.openingday,'dd/MM/yyyy') : 'Chưa có ngày chiếu'}}">
+                                                <a href="#0"
+                                                   th:text="@{${film.openingday != null ? #dates.format(film.openingday,'dd/MM/yyyy') : 'Chưa có ngày chiếu'}}">
                                                 </a
                                                 >
                                             </div>

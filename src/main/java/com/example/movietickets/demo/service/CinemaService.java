@@ -1,6 +1,5 @@
 package com.example.movietickets.demo.service;
 
-
 import com.example.movietickets.demo.model.Category;
 import com.example.movietickets.demo.model.Cinema;
 import com.example.movietickets.demo.model.Room;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 @AllArgsConstructor
 public class CinemaService {
@@ -20,7 +18,7 @@ public class CinemaService {
     private final CinemaRepository cinemaRepository;
 
     public List<Cinema> getAllCinemas() {
-        return cinemaRepository.findAll();
+        return cinemaRepository.findAllByOrderByIdDesc();
     }
 
     public Optional<Cinema> getCinemaById(Long id) {

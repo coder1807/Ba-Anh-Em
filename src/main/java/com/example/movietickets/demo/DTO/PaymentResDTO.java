@@ -1,6 +1,5 @@
 package com.example.movietickets.demo.DTO;
 
-
 import lombok.Getter;
 import lombok.Setter;
 

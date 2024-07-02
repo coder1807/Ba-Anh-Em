@@ -2,10 +2,7 @@ package com.example.movietickets.demo.controller;
 
 
 import com.example.movietickets.demo.model.*;
-import com.example.movietickets.demo.service.BlogService;
-import com.example.movietickets.demo.service.FilmService;
-import com.example.movietickets.demo.service.RatingService;
-import com.example.movietickets.demo.service.UserService;
+import com.example.movietickets.demo.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -35,6 +33,9 @@ public class RatingController {
     @Autowired
     private final UserService userService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @PostMapping("/film-details/{id}/rating")
     public String addRating(@PathVariable Long id, @Valid @ModelAttribute Rating rating,
                              BindingResult result, Model model, RedirectAttributes redirectAttributes) {
@@ -43,7 +44,9 @@ public class RatingController {
         // Lấy thông tin blog từ id
         Film film = filmService.getFilmByIdFilm(id);
 
+        List<Category> categories = categoryService.getAllCategories();
 
+        model.addAttribute("categories", categories);
 
         // Kiểm tra và lấy thông tin người dùng đăng nhập hiện tại
         User user = userService.getCurrentUser();

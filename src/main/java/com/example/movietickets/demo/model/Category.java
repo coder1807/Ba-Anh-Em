@@ -8,7 +8,6 @@ import lombok.Data;
 import java.util.List;
 import java.util.Set;
 
-
 @Data
 @Entity
 @Table(name = "category")
@@ -22,6 +21,14 @@ public class Category {
     @NotBlank(message = "Tên thể loại là bắt buộc")
     @Size(max = 100)
     private String name;
+
+    @ManyToMany(mappedBy = "categories")
+    private List<Film> filmList;
+
+    @Override
+    public String toString() {
+        return "Category{id=" + id + ", name='" + name + "'}";
+    }
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Film> films;

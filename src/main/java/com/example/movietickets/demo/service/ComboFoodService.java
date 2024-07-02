@@ -19,7 +19,7 @@ public class ComboFoodService {
     private final ComboFoodRepository comboFoodRepository;
 
     public List<ComboFood> getAllComboFood() {
-        return comboFoodRepository.findAll();
+        return comboFoodRepository.findAllByOrderByIdDesc();
     }
 
     public Optional<ComboFood> getComboFoodById(Long id) {
@@ -32,7 +32,8 @@ public class ComboFoodService {
 
     public void updateComboFood(@NotNull ComboFood comboFood) {
         ComboFood existingCategory = comboFoodRepository.findById(comboFood.getId())
-                .orElseThrow(() -> new IllegalStateException("Country with ID " + comboFood.getId() + " does not exist."));
+                .orElseThrow(
+                        () -> new IllegalStateException("Country with ID " + comboFood.getId() + " does not exist."));
         existingCategory.setComboName(comboFood.getComboName());
         comboFoodRepository.save(existingCategory);
     }
@@ -43,4 +44,6 @@ public class ComboFoodService {
         }
         comboFoodRepository.deleteById(id);
     }
+
+
 }

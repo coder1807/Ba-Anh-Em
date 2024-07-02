@@ -14,12 +14,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-
 @Data
 @Entity
 @Table(name = "Film")
 public class Film {
-    //@OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
+    // @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval =
+    // true)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FILM_ID")
@@ -29,10 +29,10 @@ public class Film {
     private String name;
 
     @Column(name = "TRAILER")
-    private String trailer;  // Changed to String based on assumption
+    private String trailer; // Changed to String based on assumption
 
     @Column(name = "DESCRIPTION")
-    private String description;  // Changed to String based on assumption
+    private String description; // Changed to String based on assumption
 
     @Column(name = "POSTER")
     private String poster;
@@ -45,7 +45,7 @@ public class Film {
 
     @Column(name = "OPENING_DAY")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private Date openingday;  // Changed to camelCase
+    private Date openingday;
 
     @Column(name = "SUBTITLE")
     private String subtitle;
@@ -60,12 +60,19 @@ public class Film {
     private String quanlity;
 
     @ManyToOne
-    @JoinColumn(name = "COUNTRY_ID" )
+    @JoinColumn(name = "COUNTRY_ID")
     private Country country;
 
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
+
+    @ManyToMany
+    @JoinTable(name = "Film_Category", joinColumns = @JoinColumn(name = "FILM_ID"), inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
+    private List<Category> categories;
+
+    @Transient
+    private List<Long> categoryIds = new ArrayList<>(); // Khởi tạo danh sách rỗng
 
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rating> ratings;
@@ -84,12 +91,4 @@ public class Film {
     public String toString() {
         return "Film{id=" + id + ", name='" + name + "'}";
     }
-//    @Override
-//    public String toString() {
-//        return "Film{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", country=" + (country != null ? country.getName() : "null") + // Avoid calling toString on country
-//                '}';
-//    }
 }
