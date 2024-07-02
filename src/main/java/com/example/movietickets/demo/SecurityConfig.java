@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/assets/**", "/css/**", "/js/**", "/", "/oauth/**",
                                 "/register", "/error", "/purchase", "/films", "/films/film-details/**", "/schedules/**", "/films/by-country", "/films/by-category", "/films/by-search", "/purchase/history",
-                                "/cart", "/cart/**", "/blog", "blog/details", "/popcorn", "/movie/details", "/movie/seat-plan", "/feedback", "/blog", "/blog/blog-details", "/about", "blog/blog-details/{id}/comment")
+                                "/cart", "/cart/**", "/blog", "blog/details", "/popcorn", "/movie/details", "/movie/seat-plan", "/feedback", "/blog", "/blog/blog-details", "/about", "blog/blog-details/{id}/comment", "/schedules/{id}")
                         .permitAll()
                         .requestMatchers("admin/schedules/edit/**", "/admin/schedules/add", "/admin/schedules", "/admin/seats", "/admin/films", "/admin/films/edit", "/admin/films/add",
                                 "/admin/countries", "/admin/countries/add", "/admin/countries/edit",

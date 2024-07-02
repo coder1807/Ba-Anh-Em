@@ -48,10 +48,16 @@ public class PurchaseController {
     @Autowired
     private ComboFoodService comboFoodService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping
     public String showPurchase(Model model, @RequestParam(required = false) Long scheduleId) {
         if (purchaseService.IsExist()) {
             Purchase purchase = purchaseService.Get();
+            List<Category> categories = categoryService.getAllCategories();
+
+            model.addAttribute("categories", categories);
             System.out.println("scheduleId: " + scheduleId);
             System.out.println("selectedSeats: " + purchase.getSeats());
             model.addAttribute("selectedSeats", purchase.getSeats());
@@ -109,6 +115,10 @@ public class PurchaseController {
     @GetMapping("/history")
     public String showPurchaseHistory(Model model) {
         List<Booking> bookings = bookingService.getBookingsByCurrentUser(); // phương thức này để lấy các booking của người dùng hiện tại
+
+        List<Category> categories = categoryService.getAllCategories();
+
+        model.addAttribute("categories", categories);
         model.addAttribute("bookings", bookings);
         return "/purchase/history";
     }

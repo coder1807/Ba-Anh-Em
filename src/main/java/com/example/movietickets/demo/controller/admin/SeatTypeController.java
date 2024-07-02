@@ -23,7 +23,6 @@ public class SeatTypeController {
     @Autowired
     private final SeatTypeService seatTypeService;
 
-
     // Hiển thị danh sách danh mục
     @GetMapping
     public String listCategories(Model model) {
@@ -32,7 +31,6 @@ public class SeatTypeController {
         model.addAttribute("title", "Danh sách loại ghe");
         return "/admin/seatType/seatType-list";
     }
-
 
     // GET request for deleting category
     @GetMapping("/delete/{id}")
