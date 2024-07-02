@@ -10,7 +10,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "Cinema")
-
 public class Cinema {
 
     @Id
@@ -33,5 +32,4 @@ public class Cinema {
 
 //    @OneToMany(mappedBy = "room")
 //    private List<Seat> seats;
-
 }

@@ -67,6 +67,8 @@ public class SeatController {
             Long roomId = schedule.getRoom().getId();
             List<Seat> seats = seatService.getSeatsByRoomIdDistinct(roomId);
 
+            System.out.println(seats);
+
             // Lấy danh sách các BookingDetail của suất chiếu hiện tại
             List<BookingDetail> bookingDetails = bookingDetailService.getBookingDetailsByScheduleId(scheduleId);
 

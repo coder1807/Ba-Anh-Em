@@ -26,5 +26,4 @@ public class BookingDetail {
     @ManyToOne
     @JoinColumn(name = "SCHEDULE_ID")
     private Schedule schedule;
-
 }
