@@ -29,14 +29,36 @@ public class CinemaService {
         cinemaRepository.save(cinema);
     }
 
-    public void updateCinema(@NotNull Cinema cinema) {
-        Cinema existingCinema = cinemaRepository.findById(cinema.getId())
-                .orElseThrow(() -> new IllegalStateException("Cinema with ID " + cinema.getId() + " does not exist."));
-        existingCinema.setName(cinema.getName());
-        existingCinema.setAddress(cinema.getAddress());
-        existingCinema.setMap(cinema.getMap());
-        cinemaRepository.save(existingCinema);
+//    public void updateCinema(@NotNull Cinema cinema) {
+//        Cinema existingCinema = cinemaRepository.findById(cinema.getId())
+//                .orElseThrow(() -> new IllegalStateException("Cinema with ID " + cinema.getId() + " does not exist."));
+//        existingCinema.setName(cinema.getName());
+//        existingCinema.setAddress(cinema.getAddress());
+//        existingCinema.setMap(cinema.getMap());
+//        // Quản lý bộ sưu tập rooms
+//        cinemaRepository.save(existingCinema);
+//    }
+public void updateCinema(@NotNull Cinema cinema) {
+    Cinema existingCinema = cinemaRepository.findById(cinema.getId())
+            .orElseThrow(() -> new IllegalStateException("Cinema with ID " + cinema.getId() + " does not exist."));
+
+    // Cập nhật thông tin của existingCinema
+    existingCinema.setName(cinema.getName());
+    existingCinema.setAddress(cinema.getAddress());
+    existingCinema.setMap(cinema.getMap());
+
+    // Quản lý bộ sưu tập rooms
+    // Xóa tất cả các phòng hiện tại trong existingCinema
+    existingCinema.getRooms().clear();
+
+    // Thêm các phòng từ đối tượng cinema vào existingCinema
+    for (Room room : cinema.getRooms()) {
+        room.setCinema(existingCinema);
+        existingCinema.getRooms().add(room);
     }
+
+    cinemaRepository.save(existingCinema);
+}
 
     public void deleteCinemaById(Long id) {
         if (!cinemaRepository.existsById(id)) {

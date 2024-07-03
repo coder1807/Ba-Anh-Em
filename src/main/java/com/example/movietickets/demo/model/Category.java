@@ -30,6 +30,6 @@ public class Category {
         return "Category{id=" + id + ", name='" + name + "'}";
     }
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Film> films;
+//    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Film> films;
 }

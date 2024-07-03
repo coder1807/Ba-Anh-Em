@@ -20,7 +20,8 @@ import java.util.List;
 @Controller("adminScheduleController")
 @AllArgsConstructor
 @RequestMapping("/admin")
-public class AdminScheduleController {
+public class
+AdminScheduleController {
     @Autowired
     private final ScheduleServiceImpl scheduleService;
     @Autowired

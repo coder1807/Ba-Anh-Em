@@ -31,7 +31,8 @@ public class Film {
     @Column(name = "TRAILER")
     private String trailer; // Changed to String based on assumption
 
-    @Column(name = "DESCRIPTION")
+    @Lob
+    @Column(name = "DESCRIPTION", columnDefinition = "TEXT")
     private String description; // Changed to String based on assumption
 
     @Column(name = "POSTER")

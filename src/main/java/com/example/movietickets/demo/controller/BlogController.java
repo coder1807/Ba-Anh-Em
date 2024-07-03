@@ -34,7 +34,8 @@ public class BlogController {
                                @RequestParam(defaultValue = "3") Integer pageSize,
                                @RequestParam(defaultValue = "id") String sortBy) {
         Page<Blog> page = blogService.getAllPostsForUser(pageNo, pageSize, sortBy);
-
+        List<Category> categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
         List<Blog> blog = page.getContent();
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
