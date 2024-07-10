@@ -65,6 +65,7 @@ public class SecurityConfig {
                                 "/admin/categories/edit",
                                 "/admin/schedules", "/admin/schedules/add",
                                 "/admin/schedules/edit",
+                                "/admin/blog/**",
                                 "/admin/blog/add", "/admin/blog/delete",
                                 "/admin/blog/update",
                                 "/admin/comboFoods", "/admin/comboFoods/add",

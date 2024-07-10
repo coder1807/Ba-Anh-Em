@@ -132,9 +132,6 @@
             <artifactId>json</artifactId>
             <version>20240303</version>
         </dependency>
-	</dependencies>
-
-
 
         <!--vnpay-->
         <dependency>
@@ -150,8 +147,8 @@
             <version>2.8.9</version> <!-- Bạn có thể kiểm tra phiên bản mới nhất -->
         </dependency>
         <!--end vnpay-->
+	</dependencies>
 
-    </dependencies>
 
 <!--    <build>-->
 <!--        <plugins>-->

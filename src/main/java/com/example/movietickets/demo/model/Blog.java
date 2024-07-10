@@ -20,13 +20,14 @@ public class Blog {
     @Column(name = "BLOG_TITLE", nullable = false)
     private String title;
 
-    @Column(name = "BLOG_CONTENT", nullable = false)
+    @Lob
+    @Column(name = "BLOG_CONTENT", nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "BLOG_DAYCREATE", nullable = false)
     private LocalDateTime date;
 
-    @Column(name = "COMBO_POSTER")
+    @Column(name = "BLOG_POSTER")
     private String poster;
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
